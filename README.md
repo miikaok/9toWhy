@@ -1,21 +1,46 @@
-# React + TypeScript + Vite + shadcn/ui
+# 9toWhy
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+Because apparently every time tracker must choose one:
 
-## Adding components
+- beautiful but expensive
+- affordable but painful
+- free but looks like a 2009 admin panel
 
-To add components to your app, run the following command:
+`9toWhy` is a mobile-first PWA time tracker that tries to be the rude exception.
+
+## What It Does
+
+- Track work with a live timer
+- Add/edit day entries from calendar view
+- Use flex time directly from selected time range
+- See reports and a flex bank transaction view
+- Save everything locally in IndexedDB (your data stays on your device)
+
+## Install As PWA
+
+### iOS (Safari)
+
+1. Open the app URL in Safari.
+2. Tap Share.
+3. Tap **Add to Home Screen**.
+4. Launch from home screen for full-screen app mode.
+
+### Android (Chrome)
+
+1. Open the app URL in Chrome.
+2. Tap the menu (or install prompt).
+3. Tap **Install app** / **Add to Home Screen**.
+4. Launch from app drawer/home screen.
+
+## Local Development
 
 ```bash
-npx shadcn@latest add button
+npm install
+npm run dev
 ```
 
-This will place the ui components in the `src/components` directory.
+## Build
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button"
+```bash
+npm run build
 ```

@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "9toWhy",
+    "description": "Rejestr czasu pracy z flexem",
+    "swipeTipTitle": "Wskazowka: przesuwaj aby zmieniac zakladki",
+    "swipeTipBody": "Przesun w lewo lub w prawo w dowolnym miejscu ekranu, aby szybko zmienic widok.",
+    "gotIt": "Rozumiem"
+  },
+  "tabs": {
+    "timer": "Timer",
+    "calendar": "Kalendarz",
+    "report": "Raport",
+    "bank": "Bank",
+    "settings": "Ustawienia"
+  },
+  "timer": {
+    "today": "Dzisiaj",
+    "flex": "Flex",
+    "teleportButton": "Teleport",
+    "teleportTitle": "Zapomniales uruchomic timer?",
+    "teleportDescription": "Jesli zapomniales dodac oznaczenie, mozesz uruchomic timer od wczesniejszej godziny dzisiaj.",
+    "teleportPrompt": "Uruchom timer od",
+    "teleportCancel": "Anuluj",
+    "teleportStart": "Uruchom z przeszlosci"
+  },
+  "forgot": {
+    "title": "Zapomniales zatrzymac timer?",
+    "description": "Timer dziala od {startedAt} ({elapsed}).",
+    "setToDailyTarget": "Ustaw na cel dzienny ({value})",
+    "setCustomTime": "Ustaw czas recznie",
+    "keepFullTime": "Zachowaj caly czas ({value})",
+    "discard": "Odrzuc",
+    "hoursPlaceholder": "Godziny",
+    "minutesPlaceholder": "Min",
+    "back": "Wroc",
+    "save": "Zapisz",
+    "autoRecoveredNote": "Przywrocono automatycznie (timer nie zostal zatrzymany)"
+  },
+  "calendar": {
+    "manageEntries": "Zarzadzaj wpisami i uzyj czasu flex",
+    "start": "Start",
+    "end": "Koniec",
+    "optionalNote": "Opcjonalna notatka",
+    "addEntry": "Dodaj wpis",
+    "useFlexTime": "Uzyj czasu flex",
+    "availableFlex": "Dostepny flex: {value}",
+    "spendableNow": "Mozna wykorzystac teraz: {value}",
+    "usedFlexNote": "Wykorzystano czas flex",
+    "overlapToast": "Wpis naklada sie z istniejacym zakresem czasu",
+    "notEnoughFlexForPeriod": "Brak wystarczajacego flexu dla okresu {period}",
+    "close": "Zamknij",
+    "noEntriesForDay": "Brak wpisow na ten dzien"
+  },
+  "entryType": {
+    "timer": "timer",
+    "manual": "reczny",
+    "flex": "flex"
+  },
+  "report": {
+    "total": "Suma",
+    "average": "Srednia",
+    "days": "Dni",
+    "flex": "Flex",
+    "weeklyTotal": "Tygodniowy laczny czas pracy"
+  },
+  "bank": {
+    "title": "Bank flex",
+    "availableFlex": "Dostepny flex",
+    "transactions": "Transakcje",
+    "noTransactions": "Brak transakcji",
+    "earnedFromWork": "Naliczono z dnia pracy",
+    "usedFlex": "Uzyto czasu flex"
+  },
+  "settings": {
+    "title": "Ustawienia dzienne",
+    "description": "Skonfiguruj cele, przerwy i zaokraglanie",
+    "defaultStartTime": "Domyslny czas rozpoczecia",
+    "defaultEndTime": "Domyslny czas zakonczenia",
+    "totalWorkTime": "Calkowity czas pracy (wyliczany)",
+    "breakDuration": "Czas przerwy (HH:MM)",
+    "maxWorkTime": "Maksymalny czas pracy (HH:MM)",
+    "roundToNearest": "Zaokraglij do",
+    "haptics": "Haptyka",
+    "language": "Jezyk",
+    "effectiveTarget": "Efektywny cel dzienny: {value}",
+    "save": "Zapisz ustawienia",
+    "savedToast": "Ustawienia zapisane",
+    "off": "Wyl",
+    "subtle": "Delikatna",
+    "full": "Pelna",
+    "languageOption": {
+      "en": "Angielski",
+      "fi": "Finski",
+      "sv": "Szwedzki",
+      "pl": "Polski",
+      "es": "Hiszpanski"
+    }
+  },
+  "time": {
+    "hourShort": "g",
+    "minuteShort": "min"
+  }
+}

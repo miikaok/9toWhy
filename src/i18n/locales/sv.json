@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "9toWhy",
+    "description": "Arbetstidsregistrering med flextid",
+    "swipeTipTitle": "Tips: svep för att byta flikar",
+    "swipeTipBody": "Svep vänster eller höger var som helst på skärmen för att byta vy snabbt.",
+    "gotIt": "Okej"
+  },
+  "tabs": {
+    "timer": "Timer",
+    "calendar": "Kalender",
+    "report": "Rapport",
+    "bank": "Bank",
+    "settings": "Inställningar"
+  },
+  "timer": {
+    "today": "Idag",
+    "flex": "Flex",
+    "teleportButton": "Teleportera",
+    "teleportTitle": "Glömde du starta timern?",
+    "teleportDescription": "Om du glömde göra en markering kan du starta timern från en tidigare tid idag.",
+    "teleportPrompt": "Starta timer från",
+    "teleportCancel": "Avbryt",
+    "teleportStart": "Starta från tidigare"
+  },
+  "forgot": {
+    "title": "Glömde du stoppa timern?",
+    "description": "Timern har varit igång sedan {startedAt} ({elapsed}).",
+    "setToDailyTarget": "Sätt till dagsmål ({value})",
+    "setCustomTime": "Ange egen tid",
+    "keepFullTime": "Behåll hela tiden ({value})",
+    "discard": "Kassera",
+    "hoursPlaceholder": "Timmar",
+    "minutesPlaceholder": "Min",
+    "back": "Tillbaka",
+    "save": "Spara",
+    "autoRecoveredNote": "Återställd automatiskt (glömde stoppa timern)"
+  },
+  "calendar": {
+    "manageEntries": "Hantera poster och använd flextid",
+    "start": "Start",
+    "end": "Slut",
+    "optionalNote": "Valfri anteckning",
+    "addEntry": "Lägg till post",
+    "useFlexTime": "Använd flextid",
+    "availableFlex": "Tillgänglig flex: {value}",
+    "spendableNow": "Kan användas nu: {value}",
+    "usedFlexNote": "Flextid använd",
+    "overlapToast": "Posten överlappar med ett befintligt tidsintervall",
+    "notEnoughFlexForPeriod": "Inte tillräckligt med flex för perioden {period}",
+    "close": "Stäng",
+    "noEntriesForDay": "Inga poster för denna dag"
+  },
+  "entryType": {
+    "timer": "timer",
+    "manual": "manuell",
+    "flex": "flex"
+  },
+  "report": {
+    "total": "Totalt",
+    "average": "Genomsnitt",
+    "days": "Dagar",
+    "flex": "Flex",
+    "weeklyTotal": "Veckans totala arbetstid"
+  },
+  "bank": {
+    "title": "Flexbank",
+    "availableFlex": "Tillgänglig flex",
+    "transactions": "Transaktioner",
+    "noTransactions": "Inga transaktioner ännu",
+    "earnedFromWork": "Intjänad från arbetsdag",
+    "usedFlex": "Använd flextid"
+  },
+  "settings": {
+    "title": "Dagliga inställningar",
+    "description": "Konfigurera mål, raster och avrundning",
+    "defaultStartTime": "Standard starttid",
+    "defaultEndTime": "Standard sluttid",
+    "totalWorkTime": "Total arbetstid (beräknad)",
+    "breakDuration": "Rasttid (HH:MM)",
+    "maxWorkTime": "Max arbetstid (HH:MM)",
+    "roundToNearest": "Avrunda till närmaste",
+    "haptics": "Haptik",
+    "language": "Språk",
+    "effectiveTarget": "Effektivt dagsmål: {value}",
+    "save": "Spara inställningar",
+    "savedToast": "Inställningar sparade",
+    "off": "Av",
+    "subtle": "Mjuk",
+    "full": "Full",
+    "languageOption": {
+      "en": "Engelska",
+      "fi": "Finska",
+      "sv": "Svenska",
+      "pl": "Polska",
+      "es": "Spanska"
+    }
+  },
+  "time": {
+    "hourShort": "h",
+    "minuteShort": "min"
+  }
+}

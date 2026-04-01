@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "9toWhy",
+    "description": "Työajan seuranta liukumalla",
+    "swipeTipTitle": "Vinkki: vaihda välilehtiä pyyhkäisemällä",
+    "swipeTipBody": "Pyyhkäise vasemmalle tai oikealle vaihtaaksesi näkymää nopeasti.",
+    "gotIt": "Selvä"
+  },
+  "tabs": {
+    "timer": "Ajastin",
+    "calendar": "Kalenteri",
+    "report": "Raportti",
+    "bank": "Pankki",
+    "settings": "Asetukset"
+  },
+  "timer": {
+    "today": "Tänään",
+    "flex": "Liukuma",
+    "teleportButton": "Teleportti",
+    "teleportTitle": "Unohditko käynnistää ajastimen?",
+    "teleportDescription": "Jos unohdit tehdä merkinnän, voit käynnistää ajastimen tämän päivän aiemmasta ajasta.",
+    "teleportPrompt": "Käynnistä ajastin ajasta",
+    "teleportCancel": "Peruuta",
+    "teleportStart": "Käynnistä menneestä"
+  },
+  "forgot": {
+    "title": "Unohditko pysäyttää ajastimen?",
+    "description": "Ajastin on ollut käynnissä alkaen {startedAt} ({elapsed}).",
+    "setToDailyTarget": "Aseta päivätavoitteeseen ({value})",
+    "setCustomTime": "Aseta mukautettu aika",
+    "keepFullTime": "Säilytä koko aika ({value})",
+    "discard": "Hylkää",
+    "hoursPlaceholder": "Tunnit",
+    "minutesPlaceholder": "Min",
+    "back": "Takaisin",
+    "save": "Tallenna",
+    "autoRecoveredNote": "Palautettu automaattisesti (ajastin unohtui päälle)"
+  },
+  "calendar": {
+    "manageEntries": "Hallitse merkintöjä ja käytä liukumaa",
+    "start": "Alku",
+    "end": "Loppu",
+    "optionalNote": "Valinnainen muistiinpano",
+    "addEntry": "Lisää merkintä",
+    "useFlexTime": "Käytä liukumaa",
+    "availableFlex": "Saatavilla oleva liukuma: {value}",
+    "spendableNow": "Käytettävissä nyt: {value}",
+    "usedFlexNote": "Käytetty liukumaa",
+    "overlapToast": "Merkintä menee päällekkäin olemassa olevan aikavälin kanssa",
+    "notEnoughFlexForPeriod": "Liukumaa ei ole riittävästi ajanjaksolle {period}",
+    "close": "Sulje",
+    "noEntriesForDay": "Ei merkintöjä tälle päivälle"
+  },
+  "entryType": {
+    "timer": "ajastin",
+    "manual": "manuaalinen",
+    "flex": "liukuma"
+  },
+  "report": {
+    "total": "Yhteensä",
+    "average": "Keskiarvo",
+    "days": "Päivät",
+    "flex": "Liukuma",
+    "weeklyTotal": "Viikon kokonaistyöaika"
+  },
+  "bank": {
+    "title": "Liukumapankki",
+    "availableFlex": "Käytettävissä oleva liukuma",
+    "transactions": "Tapahtumat",
+    "noTransactions": "Ei tapahtumia vielä",
+    "earnedFromWork": "Ansaittu työpäivästä",
+    "usedFlex": "Käytetty liukumaa"
+  },
+  "settings": {
+    "title": "Päiväasetukset",
+    "description": "Määritä tavoitteet, tauot ja pyöristys",
+    "defaultStartTime": "Oletus aloitusaika",
+    "defaultEndTime": "Oletus lopetusaika",
+    "totalWorkTime": "Kokonaistyöaika (laskettu)",
+    "breakDuration": "Tauon kesto (HH:MM)",
+    "maxWorkTime": "Maksimityöaika (HH:MM)",
+    "roundToNearest": "Pyöristä lähimpään",
+    "haptics": "Haptiikka",
+    "language": "Kieli",
+    "effectiveTarget": "Tehokas päivätavoite: {value}",
+    "save": "Tallenna asetukset",
+    "savedToast": "Asetukset tallennettu",
+    "off": "Pois",
+    "subtle": "Hillitty",
+    "full": "Täysi",
+    "languageOption": {
+      "en": "Englanti",
+      "fi": "Suomi",
+      "sv": "Ruotsi",
+      "pl": "Puola",
+      "es": "Espanja"
+    }
+  },
+  "time": {
+    "hourShort": "h",
+    "minuteShort": "min"
+  }
+}

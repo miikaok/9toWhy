@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "9toWhy",
+    "description": "Work time tracker with flex time management",
+    "swipeTipTitle": "Tip: swipe to navigate tabs",
+    "swipeTipBody": "Swipe left or right anywhere on the screen to switch views quickly.",
+    "gotIt": "Got it"
+  },
+  "tabs": {
+    "timer": "Timer",
+    "calendar": "Calendar",
+    "report": "Report",
+    "bank": "Bank",
+    "settings": "Settings"
+  },
+  "timer": {
+    "today": "Today",
+    "flex": "Flex",
+    "teleportButton": "Teleport",
+    "teleportTitle": "Forgot to start the timer?",
+    "teleportDescription": "If you forgot to add a marking, you can start the timer from an earlier time today.",
+    "teleportPrompt": "Start timer from",
+    "teleportCancel": "Cancel",
+    "teleportStart": "Start from past"
+  },
+  "forgot": {
+    "title": "Forgot to stop the timer?",
+    "description": "Timer has been running since {startedAt} ({elapsed}).",
+    "setToDailyTarget": "Set to daily target ({value})",
+    "setCustomTime": "Set custom time",
+    "keepFullTime": "Keep full time ({value})",
+    "discard": "Discard",
+    "hoursPlaceholder": "Hours",
+    "minutesPlaceholder": "Min",
+    "back": "Back",
+    "save": "Save",
+    "autoRecoveredNote": "Auto-recovered (forgot to stop)"
+  },
+  "calendar": {
+    "manageEntries": "Manage entries and apply flex time",
+    "start": "Start",
+    "end": "End",
+    "optionalNote": "Optional note",
+    "addEntry": "Add Entry",
+    "useFlexTime": "Use Flex Time",
+    "availableFlex": "Available flex: {value}",
+    "spendableNow": "Spendable now: {value}",
+    "usedFlexNote": "Used flex time",
+    "overlapToast": "Entry overlaps with existing time range",
+    "notEnoughFlexForPeriod": "Not enough flex time for period {period}",
+    "close": "Close",
+    "noEntriesForDay": "No entries for this day"
+  },
+  "entryType": {
+    "timer": "timer",
+    "manual": "manual",
+    "flex": "flex"
+  },
+  "report": {
+    "total": "Total",
+    "average": "Average",
+    "days": "Days",
+    "flex": "Flex",
+    "weeklyTotal": "Weekly total"
+  },
+  "bank": {
+    "title": "Flex Bank",
+    "availableFlex": "Available flex",
+    "transactions": "Transactions",
+    "noTransactions": "No transactions yet",
+    "earnedFromWork": "Earned from work day",
+    "usedFlex": "Used flex time"
+  },
+  "settings": {
+    "title": "Daily setup",
+    "description": "Configure targets, breaks and rounding",
+    "defaultStartTime": "Default start time",
+    "defaultEndTime": "Default end time",
+    "totalWorkTime": "Total work time (calculated)",
+    "breakDuration": "Break duration (HH:MM)",
+    "maxWorkTime": "Max work time (HH:MM)",
+    "roundToNearest": "Round to nearest",
+    "haptics": "Haptics",
+    "language": "Language",
+    "effectiveTarget": "Effective daily target: {value}",
+    "save": "Save settings",
+    "savedToast": "Settings saved",
+    "off": "Off",
+    "subtle": "Subtle",
+    "full": "Full",
+    "languageOption": {
+      "en": "English",
+      "fi": "Finnish",
+      "sv": "Swedish",
+      "pl": "Polish",
+      "es": "Spanish"
+    }
+  },
+  "time": {
+    "hourShort": "h",
+    "minuteShort": "m"
+  }
+}

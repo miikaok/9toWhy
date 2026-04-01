@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "9toWhy",
+    "description": "Seguimiento de jornada con tiempo flexible",
+    "swipeTipTitle": "Consejo: desliza para cambiar de pestana",
+    "swipeTipBody": "Desliza a la izquierda o a la derecha en cualquier parte de la pantalla para cambiar de vista rapidamente.",
+    "gotIt": "Entendido"
+  },
+  "tabs": {
+    "timer": "Temporizador",
+    "calendar": "Calendario",
+    "report": "Informe",
+    "bank": "Banco",
+    "settings": "Ajustes"
+  },
+  "timer": {
+    "today": "Hoy",
+    "flex": "Flex",
+    "teleportButton": "Teleportar",
+    "teleportTitle": "Olvidaste iniciar el temporizador?",
+    "teleportDescription": "Si olvidaste agregar un marcado, puedes iniciar el temporizador desde una hora anterior de hoy.",
+    "teleportPrompt": "Iniciar temporizador desde",
+    "teleportCancel": "Cancelar",
+    "teleportStart": "Iniciar desde antes"
+  },
+  "forgot": {
+    "title": "Olvidaste detener el temporizador?",
+    "description": "El temporizador lleva activo desde {startedAt} ({elapsed}).",
+    "setToDailyTarget": "Ajustar al objetivo diario ({value})",
+    "setCustomTime": "Establecer tiempo personalizado",
+    "keepFullTime": "Conservar tiempo completo ({value})",
+    "discard": "Descartar",
+    "hoursPlaceholder": "Horas",
+    "minutesPlaceholder": "Min",
+    "back": "Atras",
+    "save": "Guardar",
+    "autoRecoveredNote": "Recuperado automaticamente (olvido detener el temporizador)"
+  },
+  "calendar": {
+    "manageEntries": "Gestiona entradas y aplica tiempo flex",
+    "start": "Inicio",
+    "end": "Fin",
+    "optionalNote": "Nota opcional",
+    "addEntry": "Anadir entrada",
+    "useFlexTime": "Usar tiempo flex",
+    "availableFlex": "Flex disponible: {value}",
+    "spendableNow": "Disponible para usar ahora: {value}",
+    "usedFlexNote": "Tiempo flex usado",
+    "overlapToast": "La entrada se superpone con un rango de tiempo existente",
+    "notEnoughFlexForPeriod": "No hay flex suficiente para el periodo {period}",
+    "close": "Cerrar",
+    "noEntriesForDay": "No hay entradas para este dia"
+  },
+  "entryType": {
+    "timer": "temporizador",
+    "manual": "manual",
+    "flex": "flex"
+  },
+  "report": {
+    "total": "Total",
+    "average": "Promedio",
+    "days": "Dias",
+    "flex": "Flex",
+    "weeklyTotal": "Total semanal de trabajo"
+  },
+  "bank": {
+    "title": "Banco de flex",
+    "availableFlex": "Flex disponible",
+    "transactions": "Transacciones",
+    "noTransactions": "No hay transacciones todavia",
+    "earnedFromWork": "Ganado de jornada laboral",
+    "usedFlex": "Tiempo flex usado"
+  },
+  "settings": {
+    "title": "Configuracion diaria",
+    "description": "Configura objetivos, pausas y redondeo",
+    "defaultStartTime": "Hora de inicio predeterminada",
+    "defaultEndTime": "Hora de fin predeterminada",
+    "totalWorkTime": "Tiempo total de trabajo (calculado)",
+    "breakDuration": "Duracion de pausa (HH:MM)",
+    "maxWorkTime": "Tiempo maximo de trabajo (HH:MM)",
+    "roundToNearest": "Redondear al mas cercano",
+    "haptics": "Hapticos",
+    "language": "Idioma",
+    "effectiveTarget": "Objetivo diario efectivo: {value}",
+    "save": "Guardar ajustes",
+    "savedToast": "Ajustes guardados",
+    "off": "Desactivado",
+    "subtle": "Suave",
+    "full": "Completo",
+    "languageOption": {
+      "en": "Ingles",
+      "fi": "Finlandes",
+      "sv": "Sueco",
+      "pl": "Polaco",
+      "es": "Espanol"
+    }
+  },
+  "time": {
+    "hourShort": "h",
+    "minuteShort": "min"
+  }
+}

@@ -21,7 +21,8 @@
     "teleportDescription": "Jos unohdit tehdä merkinnän, voit käynnistää ajastimen tämän päivän aiemmasta ajasta.",
     "teleportPrompt": "Käynnistä ajastin ajasta",
     "teleportCancel": "Peruuta",
-    "teleportStart": "Käynnistä menneestä"
+    "teleportStart": "Käynnistä menneestä",
+    "weekNumber": "Viikko {week}"
   },
   "forgot": {
     "title": "Unohditko pysäyttää ajastimen?",
@@ -58,10 +59,20 @@
   },
   "report": {
     "total": "Yhteensä",
+    "hours": "Tunnit",
     "average": "Keskiarvo",
     "days": "Päivät",
     "flex": "Liukuma",
-    "weeklyTotal": "Viikon kokonaistyöaika"
+    "weeklyTotal": "Viikon kokonaistyöaika",
+    "showGraphs": "Näytä kaaviot",
+    "graphsTitle": "Työanalytiikka",
+    "graphsDescription": "Pitkän aikavälin trendit kirjatuista merkinnöistä.",
+    "hoursPerMonth": "Tunnit kuukaudessa",
+    "rolling12Months": "Liukuva viimeiset 12 kuukautta",
+    "hoursByDayAverage": "Tunnit viikonpäivittäin (keskiarvo)",
+    "allTime": "Koko ajalta",
+    "flexEvolution": "Liukuman kehitys",
+    "currentYearToDate": "Kuluva vuosi tähän päivään"
   },
   "bank": {
     "title": "Liukumapankki",

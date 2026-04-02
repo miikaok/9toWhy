@@ -21,7 +21,8 @@
     "teleportDescription": "Jesli zapomniales dodac oznaczenie, mozesz uruchomic timer od wczesniejszej godziny dzisiaj.",
     "teleportPrompt": "Uruchom timer od",
     "teleportCancel": "Anuluj",
-    "teleportStart": "Uruchom z przeszlosci"
+    "teleportStart": "Uruchom z przeszlosci",
+    "weekNumber": "Tydzien {week}"
   },
   "forgot": {
     "title": "Zapomniales zatrzymac timer?",
@@ -58,10 +59,20 @@
   },
   "report": {
     "total": "Suma",
+    "hours": "Godziny",
     "average": "Srednia",
     "days": "Dni",
     "flex": "Flex",
-    "weeklyTotal": "Tygodniowy laczny czas pracy"
+    "weeklyTotal": "Tygodniowy laczny czas pracy",
+    "showGraphs": "Pokaz wykresy",
+    "graphsTitle": "Analityka pracy",
+    "graphsDescription": "Trendy dlugoterminowe na podstawie zapisanych wpisow.",
+    "hoursPerMonth": "Godziny na miesiac",
+    "rolling12Months": "Ruchome ostatnie 12 miesiecy",
+    "hoursByDayAverage": "Srednia godzin wg dnia tygodnia",
+    "allTime": "Caly okres",
+    "flexEvolution": "Rozwoj flexu",
+    "currentYearToDate": "Biezacy rok do dzis"
   },
   "bank": {
     "title": "Bank flex",

@@ -21,7 +21,8 @@
     "teleportDescription": "If you forgot to add a marking, you can start the timer from an earlier time today.",
     "teleportPrompt": "Start timer from",
     "teleportCancel": "Cancel",
-    "teleportStart": "Start from past"
+    "teleportStart": "Start from past",
+    "weekNumber": "Week {week}"
   },
   "forgot": {
     "title": "Forgot to stop the timer?",
@@ -58,10 +59,20 @@
   },
   "report": {
     "total": "Total",
+    "hours": "Hours",
     "average": "Average",
     "days": "Days",
     "flex": "Flex",
-    "weeklyTotal": "Weekly total"
+    "weeklyTotal": "Weekly total",
+    "showGraphs": "Show graphs",
+    "graphsTitle": "Work analytics",
+    "graphsDescription": "Long-term trends based on your recorded entries.",
+    "hoursPerMonth": "Hours per month",
+    "rolling12Months": "Rolling last 12 months",
+    "hoursByDayAverage": "Hours by day avg.",
+    "allTime": "All-time",
+    "flexEvolution": "Flex evolution",
+    "currentYearToDate": "Current year to date"
   },
   "bank": {
     "title": "Flex Bank",

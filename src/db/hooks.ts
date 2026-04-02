@@ -34,6 +34,21 @@ export function useEntriesForMonth(year: number, month: number): WorkEntry[] {
   return entries ?? []
 }
 
+export function useEntriesInRange(
+  startDate: string,
+  endDate: string
+): WorkEntry[] {
+  const entries = useLiveQuery(
+    () =>
+      db.workEntries
+        .where("date")
+        .between(startDate, endDate, true, true)
+        .toArray(),
+    [startDate, endDate]
+  )
+  return entries ?? []
+}
+
 export function useAllEntries(): WorkEntry[] {
   const entries = useLiveQuery(() => db.workEntries.toArray())
   return entries ?? []

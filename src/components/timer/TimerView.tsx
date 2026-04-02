@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { format } from "date-fns"
+import { format, getISOWeek } from "date-fns"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -43,6 +43,7 @@ export function TimerView() {
   const dailyTarget = getEffectiveDailyTarget(settings)
   const workedMinutes = getDailyWorkedMinutes(todayEntries)
   const dailyFlex = getDailyFlex(todayEntries, settings)
+  const weekNumber = getISOWeek(new Date())
 
   const [nowMs, setNowMs] = useState(0)
   const [teleportOpen, setTeleportOpen] = useState(false)
@@ -189,6 +190,9 @@ export function TimerView() {
         <p className="text-sm text-muted-foreground">
           {formatLocaleDate(new Date(), "cccc, d LLLL", locale)}
         </p>
+        <p className="text-xs text-muted-foreground/80">
+          {t("timer.weekNumber", { week: weekNumber })}
+        </p>
       </div>
 
       <TimerDisplay
@@ -236,7 +240,9 @@ export function TimerView() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("timer.teleportTitle")}</DialogTitle>
-            <DialogDescription>{t("timer.teleportDescription")}</DialogDescription>
+            <DialogDescription>
+              {t("timer.teleportDescription")}
+            </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-2">
             <label className="text-xs text-muted-foreground">
@@ -250,10 +256,17 @@ export function TimerView() {
             />
           </div>
           <DialogFooter>
-            <Button variant="outline" onPointerDown={hapticTap} onClick={() => setTeleportOpen(false)}>
+            <Button
+              variant="outline"
+              onPointerDown={hapticTap}
+              onClick={() => setTeleportOpen(false)}
+            >
               {t("timer.teleportCancel")}
             </Button>
-            <Button onPointerDown={hapticTap} onClick={() => void handleTeleportStart()}>
+            <Button
+              onPointerDown={hapticTap}
+              onClick={() => void handleTeleportStart()}
+            >
               {t("timer.teleportStart")}
             </Button>
           </DialogFooter>

@@ -50,7 +50,7 @@ function interpolateColor(
   return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
 }
 
-function getCurrentGradient(): string {
+function getCurrentGradientColors(): { from: string; to: string } {
   const now = new Date()
   const hour = now.getHours()
   const minuteFraction = now.getMinutes() / 60
@@ -72,10 +72,15 @@ function getCurrentGradient(): string {
     const blendFactor = minuteFraction
     const from = interpolateColor(current.from, next.from, blendFactor)
     const to = interpolateColor(current.to, next.to, blendFactor)
-    return `linear-gradient(135deg, ${from}, ${to})`
+    return { from, to }
   }
 
-  return `linear-gradient(135deg, ${current.from}, ${current.to})`
+  return { from: current.from, to: current.to }
+}
+
+function getCurrentGradient(): string {
+  const { from, to } = getCurrentGradientColors()
+  return `linear-gradient(135deg, ${from}, ${to})`
 }
 
 export function useTimeGradient(): string {
@@ -95,4 +100,17 @@ export function useIsDarkGradient(): boolean {
   const now = new Date()
   const hour = now.getHours()
   return hour >= 17 || hour < 7
+}
+
+export function useTimeGradientColors(): { from: string; to: string } {
+  const [colors, setColors] = useState(getCurrentGradientColors)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColors(getCurrentGradientColors())
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return colors
 }

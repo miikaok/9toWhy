@@ -21,7 +21,8 @@
     "teleportDescription": "Om du glömde göra en markering kan du starta timern från en tidigare tid idag.",
     "teleportPrompt": "Starta timer från",
     "teleportCancel": "Avbryt",
-    "teleportStart": "Starta från tidigare"
+    "teleportStart": "Starta från tidigare",
+    "weekNumber": "Vecka {week}"
   },
   "forgot": {
     "title": "Glömde du stoppa timern?",
@@ -58,10 +59,20 @@
   },
   "report": {
     "total": "Totalt",
+    "hours": "Timmar",
     "average": "Genomsnitt",
     "days": "Dagar",
     "flex": "Flex",
-    "weeklyTotal": "Veckans totala arbetstid"
+    "weeklyTotal": "Veckans totala arbetstid",
+    "showGraphs": "Visa grafer",
+    "graphsTitle": "Arbetsanalys",
+    "graphsDescription": "Langsiktiga trender baserade pa dina registreringar.",
+    "hoursPerMonth": "Timmar per manad",
+    "rolling12Months": "Rullande senaste 12 manader",
+    "hoursByDayAverage": "Timmar per veckodag (snitt)",
+    "allTime": "Hela tiden",
+    "flexEvolution": "Flexutveckling",
+    "currentYearToDate": "Innevarande ar till idag"
   },
   "bank": {
     "title": "Flexbank",

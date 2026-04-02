@@ -19,10 +19,12 @@ import { getDaySummary } from "@/lib/flex"
 import { hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
 import { formatLocaleDate, getDateFnsLocale } from "@/lib/date-locale"
+import { ReportGraphsDrawer } from "./ReportGraphsDrawer"
 
 export function ReportView() {
-  const { locale } = useI18n()
+  const { locale, t } = useI18n()
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [graphsOpen, setGraphsOpen] = useState(false)
   const settings = useSettings()
   const allEntries = useAllEntries()
   const entries = useEntriesForMonth(
@@ -110,9 +112,20 @@ export function ReportView() {
         weeklyTargetMinutes={weeklyTargetMinutes}
       />
 
-      <div className="min-h-0 flex-1 overflow-y-auto pb-1">
+      <div className="min-h-0 flex-1">
         <DailyBreakdown days={days} />
       </div>
+      <div className="shrink-0 pt-2">
+        <Button
+          className="w-full"
+          variant="secondary"
+          onPointerDown={hapticTap}
+          onClick={() => setGraphsOpen(true)}
+        >
+          {t("report.showGraphs")}
+        </Button>
+      </div>
+      <ReportGraphsDrawer open={graphsOpen} onOpenChange={setGraphsOpen} />
     </motion.div>
   )
 }

@@ -21,7 +21,8 @@
     "teleportDescription": "Si olvidaste agregar un marcado, puedes iniciar el temporizador desde una hora anterior de hoy.",
     "teleportPrompt": "Iniciar temporizador desde",
     "teleportCancel": "Cancelar",
-    "teleportStart": "Iniciar desde antes"
+    "teleportStart": "Iniciar desde antes",
+    "weekNumber": "Semana {week}"
   },
   "forgot": {
     "title": "Olvidaste detener el temporizador?",
@@ -58,10 +59,20 @@
   },
   "report": {
     "total": "Total",
+    "hours": "Horas",
     "average": "Promedio",
     "days": "Dias",
     "flex": "Flex",
-    "weeklyTotal": "Total semanal de trabajo"
+    "weeklyTotal": "Total semanal de trabajo",
+    "showGraphs": "Mostrar graficas",
+    "graphsTitle": "Analitica de trabajo",
+    "graphsDescription": "Tendencias a largo plazo basadas en tus registros.",
+    "hoursPerMonth": "Horas por mes",
+    "rolling12Months": "Ultimos 12 meses moviles",
+    "hoursByDayAverage": "Promedio de horas por dia",
+    "allTime": "Todo el tiempo",
+    "flexEvolution": "Evolucion del flex",
+    "currentYearToDate": "Ano actual hasta hoy"
   },
   "bank": {
     "title": "Banco de flex",

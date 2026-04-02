@@ -66,6 +66,8 @@
   "bank": {
     "title": "Flexbank",
     "availableFlex": "Tillgänglig flex",
+    "fullDaysOff": "Hela lediga dagar",
+    "daysCount": "{count} dagar",
     "transactions": "Transaktioner",
     "noTransactions": "Inga transaktioner ännu",
     "earnedFromWork": "Intjänad från arbetsdag",

@@ -4,7 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { useAllEntries, useSettings } from "@/db/hooks"
-import { getDailyFlex, groupEntriesByDate } from "@/lib/flex"
+import {
+  getDailyFlex,
+  getEffectiveDailyTarget,
+  groupEntriesByDate,
+} from "@/lib/flex"
 import { DurationDisplay } from "@/components/shared/DurationDisplay"
 import { FlexBadge } from "@/components/shared/FlexBadge"
 import { useI18n } from "@/hooks/use-i18n"
@@ -58,6 +62,11 @@ export function BankView() {
     () => transactions.reduce((sum, tx) => sum + tx.minutes, 0),
     [transactions]
   )
+  const dailyOffCostMinutes = getEffectiveDailyTarget(settings)
+  const fullDaysOff =
+    dailyOffCostMinutes > 0
+      ? Math.max(Math.floor(totalAvailableFlex / dailyOffCostMinutes), 0)
+      : 0
 
   return (
     <motion.div
@@ -71,11 +80,21 @@ export function BankView() {
         <CardHeader>
           <CardTitle>{t("bank.title")}</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
-            {t("bank.availableFlex")}
-          </span>
-          <FlexBadge minutes={totalAvailableFlex} size="lg" />
+        <CardContent className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              {t("bank.availableFlex")}
+            </span>
+            <FlexBadge minutes={totalAvailableFlex} size="lg" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              {t("bank.fullDaysOff")}
+            </span>
+            <span className="text-sm font-semibold tabular-nums">
+              {t("bank.daysCount", { count: fullDaysOff })}
+            </span>
+          </div>
         </CardContent>
       </Card>
 

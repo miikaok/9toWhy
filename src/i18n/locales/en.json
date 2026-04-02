@@ -66,6 +66,8 @@
   "bank": {
     "title": "Flex Bank",
     "availableFlex": "Available flex",
+    "fullDaysOff": "Full days off",
+    "daysCount": "{count} days",
     "transactions": "Transactions",
     "noTransactions": "No transactions yet",
     "earnedFromWork": "Earned from work day",

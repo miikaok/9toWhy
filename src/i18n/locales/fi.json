@@ -66,6 +66,8 @@
   "bank": {
     "title": "Liukumapankki",
     "availableFlex": "Käytettävissä oleva liukuma",
+    "fullDaysOff": "Täydet vapaapäivät",
+    "daysCount": "{count} päivää",
     "transactions": "Tapahtumat",
     "noTransactions": "Ei tapahtumia vielä",
     "earnedFromWork": "Ansaittu työpäivästä",

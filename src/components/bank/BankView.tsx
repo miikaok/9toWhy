@@ -4,11 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { useAllEntries, useSettings } from "@/db/hooks"
-import {
-  getEffectiveDailyTarget,
-  getNetWorkedMinutesForFlex,
-  groupEntriesByDate,
-} from "@/lib/flex"
+import { getDailyFlex, groupEntriesByDate } from "@/lib/flex"
 import { DurationDisplay } from "@/components/shared/DurationDisplay"
 import { FlexBadge } from "@/components/shared/FlexBadge"
 import { useI18n } from "@/hooks/use-i18n"
@@ -29,10 +25,9 @@ export function BankView() {
   const transactions = useMemo<BankTransaction[]>(() => {
     const byDate = groupEntriesByDate(entries)
     const list: BankTransaction[] = []
-    const target = getEffectiveDailyTarget(settings)
 
     for (const [date, dayEntries] of byDate) {
-      const earned = getNetWorkedMinutesForFlex(dayEntries, settings) - target
+      const earned = getDailyFlex(dayEntries, settings)
       if (earned > 0) {
         list.push({
           id: `earned-${date}`,

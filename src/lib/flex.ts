@@ -1,5 +1,6 @@
 import { format } from "date-fns"
 import type { WorkEntry, Settings } from "@/db"
+import { roundDuration } from "@/lib/time"
 
 export function getEffectiveDailyTarget(settings: Settings): number {
   return settings.totalWorkMinutes - settings.breakMinutes
@@ -32,7 +33,8 @@ export function getNetWorkedMinutesForFlex(
 export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
   if (entries.length === 0) return 0
   const netWorked = getNetWorkedMinutesForFlex(entries, settings)
-  return netWorked - getEffectiveDailyTarget(settings)
+  const rawFlex = netWorked - getEffectiveDailyTarget(settings)
+  return roundDuration(rawFlex, settings.roundToMinutes)
 }
 
 export interface DaySummary {

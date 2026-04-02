@@ -82,7 +82,7 @@
     "roundToNearest": "Pyöristä lähimpään",
     "haptics": "Haptiikka",
     "language": "Kieli",
-    "effectiveTarget": "Tehokas päivätavoite: {value}",
+    "effectiveTarget": "Päivän kokonaistyöaika: {value}",
     "save": "Tallenna asetukset",
     "savedToast": "Asetukset tallennettu",
     "off": "Pois",

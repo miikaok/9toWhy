@@ -177,6 +177,44 @@ export function TimerView() {
       ? roundDuration(msToMinutes(elapsedMs), settings.roundToMinutes)
       : 0)
 
+  const liveDailyFlex = useMemo(() => {
+    if (!isRunning && !isPaused) return dailyFlex
+    const persistedNonFlexWorked = todayEntries
+      .filter((entry) => entry.type !== "flex")
+      .reduce((sum, entry) => sum + entry.duration, 0)
+    const liveSessionMinutes = roundDuration(
+      msToMinutes(elapsedMs),
+      settings.roundToMinutes
+    )
+    const totalNonFlexWorked = persistedNonFlexWorked + liveSessionMinutes
+    const rawFlex = totalNonFlexWorked - settings.totalWorkMinutes
+    return roundDuration(rawFlex, settings.roundToMinutes)
+  }, [
+    dailyFlex,
+    elapsedMs,
+    isPaused,
+    isRunning,
+    settings.roundToMinutes,
+    settings.totalWorkMinutes,
+    todayEntries,
+  ])
+
+  const dayEntryRows = useMemo(
+    () =>
+      [...todayEntries]
+        .sort(
+          (a, b) =>
+            new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
+        )
+        .map((entry) => ({
+          id: entry.id,
+          range: `${formatLocaleDate(new Date(entry.startTime), "HH:mm", locale)}-${formatLocaleDate(new Date(entry.endTime), "HH:mm", locale)}`,
+          typeLabel: t(`entryType.${entry.type}`),
+          minutes: entry.duration,
+        })),
+    [locale, t, todayEntries]
+  )
+
   return (
     <motion.div
       key="timer"
@@ -214,23 +252,45 @@ export function TimerView() {
       />
 
       <Card className="w-full max-w-sm bg-card/60 backdrop-blur-sm">
-        <CardContent className="flex items-center justify-between py-4">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">
-              {t("timer.today")}
-            </span>
-            <span className="text-sm font-medium">
-              <DurationDisplay minutes={totalWorkedWithTimer} />
-              <span className="text-muted-foreground"> / </span>
-              <DurationDisplay minutes={dailyTarget} />
-            </span>
-          </div>
-          {todayEntries.length > 0 && (
-            <div className="flex flex-col items-end gap-0.5">
+        <CardContent className="flex flex-col gap-2 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-0.5">
               <span className="text-xs text-muted-foreground">
-                {t("timer.flex")}
+                {t("timer.today")}
               </span>
-              <FlexBadge minutes={dailyFlex} />
+              <span className="text-sm font-medium">
+                <DurationDisplay minutes={totalWorkedWithTimer} />
+                <span className="text-muted-foreground"> / </span>
+                <DurationDisplay minutes={dailyTarget} />
+              </span>
+            </div>
+            {(todayEntries.length > 0 || isRunning || isPaused) && (
+              <div className="flex flex-col items-end gap-0.5">
+                <span className="text-xs text-muted-foreground">
+                  {t("timer.flex")}
+                </span>
+                <FlexBadge minutes={liveDailyFlex} />
+              </div>
+            )}
+          </div>
+          {dayEntryRows.length > 0 && (
+            <div className="max-h-24 overflow-y-auto border-t border-white/10 pt-2 pr-1">
+              <div className="flex flex-col gap-1">
+                {dayEntryRows.map((row) => (
+                  <div
+                    key={row.id}
+                    className="flex items-center justify-between text-xs"
+                  >
+                    <span className="truncate text-muted-foreground">
+                      {row.range} · {row.typeLabel}
+                    </span>
+                    <DurationDisplay
+                      minutes={row.minutes}
+                      className="shrink-0 text-foreground/90"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </CardContent>

@@ -24,7 +24,6 @@ import {
   saveTimerState,
 } from "@/db/hooks"
 import {
-  getEffectiveDailyTarget,
   getDailyWorkedMinutes,
   getDailyFlex,
   todayDateString,
@@ -40,7 +39,7 @@ export function TimerView() {
   const timerState = useTimerState()
   const today = todayDateString()
   const todayEntries = useEntriesForDate(today)
-  const dailyTarget = getEffectiveDailyTarget(settings)
+  const dailyTarget = settings.totalWorkMinutes
   const workedMinutes = getDailyWorkedMinutes(todayEntries)
   const dailyFlex = getDailyFlex(todayEntries, settings)
   const weekNumber = getISOWeek(new Date())

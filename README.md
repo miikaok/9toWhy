@@ -1,5 +1,9 @@
 # 9toWhy
 
+Mobile-first PWA work time tracker with clean, modern UX, lightweight performance, local-first data, flex banking, reports, and zero subscription drama; it runs directly from the GitHub Pages website with no extra packaging needed.
+
+Open-source, so anyone can wrap it in Electron, pay Apple $99/year, and heroically sell it back to you as "premium productivity."
+
 Because apparently every time tracker must choose one:
 
 - beautiful but expensive
@@ -31,6 +35,15 @@ Because apparently every time tracker must choose one:
 2. Tap the menu (or install prompt).
 3. Tap **Install app** / **Add to Home Screen**.
 4. Launch from app drawer/home screen.
+
+## Showcase
+
+Screenshots, because if there is no visual proof, people assume this is another spreadsheet.
+
+![Timer screen](.github/assets/IMG_3320.PNG)
+![Flex bank screen](.github/assets/IMG_3318.PNG)
+![Report screen](.github/assets/IMG_3319.PNG)
+![Settings screen](.github/assets/IMG_3317.PNG)
 
 ## Local Development
 

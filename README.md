@@ -40,10 +40,12 @@ Because apparently every time tracker must choose one:
 
 Screenshots, because if there is no visual proof, people assume this is another spreadsheet.
 
-![Timer screen](.github/assets/IMG_3320.PNG)
-![Flex bank screen](.github/assets/IMG_3318.PNG)
-![Report screen](.github/assets/IMG_3319.PNG)
-![Settings screen](.github/assets/IMG_3317.PNG)
+<p align="center">
+  <img src=".github/assets/IMG_3320.PNG" alt="Timer screen" width="23%" />
+  <img src=".github/assets/IMG_3318.PNG" alt="Flex bank screen" width="23%" />
+  <img src=".github/assets/IMG_3319.PNG" alt="Report screen" width="23%" />
+  <img src=".github/assets/IMG_3317.PNG" alt="Settings screen" width="23%" />
+</p>
 
 ## Local Development
 

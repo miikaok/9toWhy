@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
   addDays,
   eachDayOfInterval,
@@ -64,6 +64,19 @@ export function ReportGraphsDrawer({
   const allEntries = useAllEntries()
   const gradientColors = useTimeGradientColors()
   const todayDate = useMemo(() => new Date(), [])
+  const [interactionsEnabled, setInteractionsEnabled] = useState(!open)
+
+  useEffect(() => {
+    if (!open) {
+      setInteractionsEnabled(true)
+      return
+    }
+    setInteractionsEnabled(false)
+    const timer = setTimeout(() => {
+      setInteractionsEnabled(true)
+    }, 260)
+    return () => clearTimeout(timer)
+  }, [open])
 
   const rollingStart = format(
     startOfMonth(subMonths(todayDate, 11)),
@@ -177,7 +190,11 @@ export function ReportGraphsDrawer({
         </DrawerHeader>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-[calc(env(safe-area-inset-bottom)+12px)]">
-          <div className="flex flex-col gap-3 pt-2">
+          <div
+            className={`flex flex-col gap-3 pt-2 ${
+              interactionsEnabled ? "" : "pointer-events-none"
+            }`}
+          >
             <Card className="bg-card/65 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle>{t("report.hoursPerMonth")}</CardTitle>

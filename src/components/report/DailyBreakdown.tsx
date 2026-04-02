@@ -13,7 +13,7 @@ interface DailyBreakdownProps {
 export function DailyBreakdown({ days }: DailyBreakdownProps) {
   const { locale } = useI18n()
   return (
-    <ScrollArea className="h-[46svh] rounded-xl border bg-card/60 backdrop-blur-sm">
+    <ScrollArea className="h-full rounded-xl border bg-card/60 backdrop-blur-sm">
       <div className="flex flex-col p-3">
         {days.map((day, index) => (
           <div key={day.date}>
@@ -21,7 +21,11 @@ export function DailyBreakdown({ days }: DailyBreakdownProps) {
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-medium">
-                  {formatLocaleDate(new Date(`${day.date}T00:00:00`), "EEE d", locale)}
+                  {formatLocaleDate(
+                    new Date(`${day.date}T00:00:00`),
+                    "EEE d",
+                    locale
+                  )}
                 </span>
                 <span className="text-xs text-muted-foreground">
                   <DurationDisplay minutes={day.workedMinutes} />

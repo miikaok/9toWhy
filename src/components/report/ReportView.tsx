@@ -115,7 +115,7 @@ export function ReportView() {
       <div className="min-h-0 flex-1">
         <DailyBreakdown days={days} />
       </div>
-      <div className="shrink-0 pt-2">
+      <div className="shrink-0 pt-1">
         <Button
           className="w-full"
           variant="secondary"

@@ -10,31 +10,14 @@ export function getDailyWorkedMinutes(entries: WorkEntry[]): number {
   return entries.reduce((sum, e) => sum + e.duration, 0)
 }
 
-export function getRawWorkedMinutes(entries: WorkEntry[]): number {
-  return entries
-    .filter((entry) => entry.type !== "flex")
-    .reduce((sum, entry) => {
-      const start = new Date(entry.startTime).getTime()
-      const end = new Date(entry.endTime).getTime()
-      const minutes = Math.max((end - start) / 60000, 0)
-      return sum + minutes
-    }, 0)
-}
-
-export function getNetWorkedMinutesForFlex(
-  entries: WorkEntry[],
-  settings: Settings
-): number {
-  const rawWorked = getRawWorkedMinutes(entries)
-  if (rawWorked <= 0) return 0
-  return Math.max(rawWorked - settings.breakMinutes, 0)
-}
-
 export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
-  if (entries.length === 0) return 0
-  const netWorked = getNetWorkedMinutesForFlex(entries, settings)
-  const rawFlex = netWorked - getEffectiveDailyTarget(settings)
-  return roundDuration(rawFlex, settings.roundToMinutes)
+  const nonFlex = entries.filter((e) => e.type !== "flex")
+  if (nonFlex.length === 0) return 0
+  const workedMinutes = getDailyWorkedMinutes(nonFlex)
+  return roundDuration(
+    workedMinutes - settings.totalWorkMinutes,
+    settings.roundToMinutes
+  )
 }
 
 export interface DaySummary {

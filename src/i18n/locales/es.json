@@ -6,6 +6,10 @@
     "swipeTipBody": "Desliza a la izquierda o a la derecha en cualquier parte de la pantalla para cambiar de vista rapidamente.",
     "gotIt": "Entendido"
   },
+  "whatsNew": {
+    "title": "Novedades",
+    "gotIt": "Entendido"
+  },
   "tabs": {
     "timer": "Temporizador",
     "calendar": "Calendario",
@@ -22,7 +26,8 @@
     "teleportPrompt": "Iniciar temporizador desde",
     "teleportCancel": "Cancelar",
     "teleportStart": "Iniciar desde antes",
-    "weekNumber": "Semana {week}"
+    "weekNumber": "Semana {week}",
+    "autoFilledFlexNote": "Relleno automatico al detener temporizador"
   },
   "forgot": {
     "title": "Olvidaste detener el temporizador?",
@@ -35,7 +40,8 @@
     "minutesPlaceholder": "Min",
     "back": "Atras",
     "save": "Guardar",
-    "autoRecoveredNote": "Recuperado automaticamente (olvido detener el temporizador)"
+    "autoRecoveredNote": "Recuperado automaticamente (olvido detener el temporizador)",
+    "customTimeError": "La duracion debe estar entre 1 minuto y {max}"
   },
   "calendar": {
     "manageEntries": "Gestiona entradas y aplica tiempo flex",
@@ -50,7 +56,17 @@
     "overlapToast": "La entrada se superpone con un rango de tiempo existente",
     "notEnoughFlexForPeriod": "No hay flex suficiente para el periodo {period}",
     "close": "Cerrar",
-    "noEntriesForDay": "No hay entradas para este dia"
+    "noEntriesForDay": "No hay entradas para este dia",
+    "autoFillFlex": "Rellenar automaticamente con flex",
+    "autoFilledFlexNote": "Rellenado automaticamente con flex",
+    "legendLink": "Que significan los puntos?",
+    "legendTitle": "Marcadores del calendario",
+    "legendFullWork": "Dia completo realizado con tiempo de trabajo",
+    "legendWorkAndFlex": "Dia completo completado usando tiempo flex",
+    "legendFullFlex": "Dia completo cubierto con tiempo flex",
+    "legendIncomplete": "Dia incompleto — faltan horas",
+    "legendFlexIncomplete": "Tiempo flex usado pero dia aun incompleto",
+    "legendAllIncomplete": "Trabajo y flex registrados pero dia aun incompleto"
   },
   "entryType": {
     "timer": "temporizador",
@@ -65,6 +81,20 @@
     "flex": "Flex",
     "weeklyTotal": "Total semanal de trabajo",
     "showGraphs": "Mostrar graficas",
+    "exportExcel": "Exportar a Excel",
+    "excelTitle": "Informe de horas de trabajo",
+    "excelSheetName": "Horas de trabajo",
+    "excelColDate": "Fecha",
+    "excelColStart": "Inicio",
+    "excelColEnd": "Fin",
+    "excelColBreaks": "Pausas",
+    "excelColWorked": "Horas trabajadas",
+    "excelColFlexApplied": "Flex aplicado",
+    "excelColTarget": "Objetivo",
+    "excelColBalance": "Saldo",
+    "excelRowMonthlyTotal": "Total mensual",
+    "excelRowDaysWorked": "Dias trabajados",
+    "excelRowTargetPerDay": "Objetivo por dia",
     "graphsTitle": "Analitica de trabajo",
     "graphsDescription": "Tendencias a largo plazo basadas en tus registros.",
     "hoursPerMonth": "Horas por mes",
@@ -95,6 +125,8 @@
     "roundToNearest": "Redondear al mas cercano",
     "haptics": "Hapticos",
     "language": "Idioma",
+    "autoFillFlexOnStop": "Rellenar flex al detener",
+    "autoFillFlexOnStopDescription": "Usar automaticamente tiempo flex para completar el dia al detener el temporizador",
     "effectiveTarget": "Objetivo diario efectivo: {value}",
     "save": "Guardar ajustes",
     "savedToast": "Ajustes guardados",

@@ -6,6 +6,10 @@
     "swipeTipBody": "Pyyhkäise vasemmalle tai oikealle vaihtaaksesi näkymää nopeasti.",
     "gotIt": "Selvä"
   },
+  "whatsNew": {
+    "title": "Mitä uutta",
+    "gotIt": "Selvä"
+  },
   "tabs": {
     "timer": "Ajastin",
     "calendar": "Kalenteri",
@@ -22,7 +26,8 @@
     "teleportPrompt": "Käynnistä ajastin ajasta",
     "teleportCancel": "Peruuta",
     "teleportStart": "Käynnistä menneestä",
-    "weekNumber": "Viikko {week}"
+    "weekNumber": "Viikko {week}",
+    "autoFilledFlexNote": "Täytetty automaattisesti ajastimen pysäytyksessä"
   },
   "forgot": {
     "title": "Unohditko pysäyttää ajastimen?",
@@ -35,7 +40,8 @@
     "minutesPlaceholder": "Min",
     "back": "Takaisin",
     "save": "Tallenna",
-    "autoRecoveredNote": "Palautettu automaattisesti (ajastin unohtui päälle)"
+    "autoRecoveredNote": "Palautettu automaattisesti (ajastin unohtui päälle)",
+    "customTimeError": "Keston tulee olla 1 minuutin ja {max} välillä"
   },
   "calendar": {
     "manageEntries": "Hallitse merkintöjä ja käytä liukumaa",
@@ -50,7 +56,17 @@
     "overlapToast": "Merkintä menee päällekkäin olemassa olevan aikavälin kanssa",
     "notEnoughFlexForPeriod": "Liukumaa ei ole riittävästi ajanjaksolle {period}",
     "close": "Sulje",
-    "noEntriesForDay": "Ei merkintöjä tälle päivälle"
+    "noEntriesForDay": "Ei merkintöjä tälle päivälle",
+    "autoFillFlex": "Täytä automaattisesti liukumalla",
+    "autoFilledFlexNote": "Täytetty automaattisesti liukumalla",
+    "legendLink": "Mitä pisteet tarkoittavat?",
+    "legendTitle": "Kalenterimerkinnät",
+    "legendFullWork": "Täysi päivä suoritettu työajalla",
+    "legendWorkAndFlex": "Täysi päivä suoritettu liukuma-ajalla",
+    "legendFullFlex": "Koko päivä katettu liukuma-ajalla",
+    "legendIncomplete": "Kesken jäänyt päivä — puuttuu tunteja",
+    "legendFlexIncomplete": "Liukumaa käytetty, mutta päivä yhä kesken",
+    "legendAllIncomplete": "Työtä ja liukumaa kirjattu, mutta päivä yhä kesken"
   },
   "entryType": {
     "timer": "ajastin",
@@ -65,6 +81,20 @@
     "flex": "Liukuma",
     "weeklyTotal": "Viikon kokonaistyöaika",
     "showGraphs": "Näytä kaaviot",
+    "exportExcel": "Vie Exceliin",
+    "excelTitle": "Työtuntiraportti",
+    "excelSheetName": "Työtunnit",
+    "excelColDate": "Päivämäärä",
+    "excelColStart": "Alku",
+    "excelColEnd": "Loppu",
+    "excelColBreaks": "Tauot",
+    "excelColWorked": "Työtunnit",
+    "excelColFlexApplied": "Käytetty liukuma",
+    "excelColTarget": "Tavoite",
+    "excelColBalance": "Saldo",
+    "excelRowMonthlyTotal": "Kuukauden yhteensä",
+    "excelRowDaysWorked": "Työpäiviä",
+    "excelRowTargetPerDay": "Päivätavoite",
     "graphsTitle": "Työanalytiikka",
     "graphsDescription": "Pitkän aikavälin trendit kirjatuista merkinnöistä.",
     "hoursPerMonth": "Tunnit kuukaudessa",
@@ -95,6 +125,8 @@
     "roundToNearest": "Pyöristä lähimpään",
     "haptics": "Haptiikka",
     "language": "Kieli",
+    "autoFillFlexOnStop": "Täytä liukumalla pysäytyksessä",
+    "autoFillFlexOnStopDescription": "Käytä liukuma-aikaa automaattisesti päivän täyttämiseen ajastimen pysäytyksessä",
     "effectiveTarget": "Päivän kokonaistyöaika: {value}",
     "save": "Tallenna asetukset",
     "savedToast": "Asetukset tallennettu",

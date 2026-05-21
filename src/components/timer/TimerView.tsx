@@ -122,8 +122,11 @@ export function TimerView() {
     hapticSuccess()
 
     let totalMs = timerState.accumulatedMs
+    // Capture stop time once -- shared between the timer entry and the flex entry
+    // to guarantee zero gap between them
+    const stopTime = new Date()
     if (!timerState.pausedAt) {
-      totalMs += Date.now() - new Date(timerState.startedAt).getTime()
+      totalMs += stopTime.getTime() - new Date(timerState.startedAt).getTime()
     } else {
       totalMs +=
         new Date(timerState.pausedAt).getTime() -
@@ -132,17 +135,45 @@ export function TimerView() {
 
     const rawMinutes = msToMinutes(totalMs)
     const duration = roundDuration(rawMinutes, settings.roundToMinutes)
+    const startDate = format(new Date(timerState.startedAt), "yyyy-MM-dd")
 
     if (duration > 0) {
-      const startDate = format(new Date(timerState.startedAt), "yyyy-MM-dd")
       await addWorkEntry({
         date: startDate,
         startTime: timerState.startedAt,
-        endTime: new Date().toISOString(),
+        endTime: stopTime.toISOString(),
         duration,
         type: "timer",
         note: "",
       })
+    }
+
+    if (settings.autoFillFlexOnStop && duration > 0) {
+      // Only count non-flex entries so we don't double-fill when flex was
+      // already applied manually earlier in the day
+      const nonFlexWorked = todayEntries
+        .filter((e) => e.type !== "flex")
+        .reduce((sum, e) => sum + e.duration, 0)
+      const totalWorkedAfter = nonFlexWorked + duration
+      const deficit = settings.totalWorkMinutes - totalWorkedAfter
+      // Round the deficit with the same step used for the timer entry itself.
+      // Clamp to zero to avoid over-filling on days already at/over target.
+      const flexDuration = roundDuration(
+        Math.max(deficit, 0),
+        settings.roundToMinutes
+      )
+      if (flexDuration > 0) {
+        // Start exactly at stop time -- no gap between the work entry and flex entry
+        const flexEnd = new Date(stopTime.getTime() + flexDuration * 60000)
+        await addWorkEntry({
+          date: startDate,
+          startTime: stopTime.toISOString(),
+          endTime: flexEnd.toISOString(),
+          duration: flexDuration,
+          type: "flex",
+          note: t("timer.autoFilledFlexNote"),
+        })
+      }
     }
 
     await saveTimerState({
@@ -151,7 +182,7 @@ export function TimerView() {
       pausedAt: null,
       accumulatedMs: 0,
     })
-  }, [timerState, settings.roundToMinutes])
+  }, [timerState, settings, todayEntries, t])
 
   const handleTeleportStart = async () => {
     const [hours, minutes] = teleportTime.split(":").map(Number)

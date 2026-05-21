@@ -6,6 +6,10 @@
     "swipeTipBody": "Swipe left or right anywhere on the screen to switch views quickly.",
     "gotIt": "Got it"
   },
+  "whatsNew": {
+    "title": "What's new",
+    "gotIt": "Got it"
+  },
   "tabs": {
     "timer": "Timer",
     "calendar": "Calendar",
@@ -22,7 +26,8 @@
     "teleportPrompt": "Start timer from",
     "teleportCancel": "Cancel",
     "teleportStart": "Start from past",
-    "weekNumber": "Week {week}"
+    "weekNumber": "Week {week}",
+    "autoFilledFlexNote": "Auto-filled on timer stop"
   },
   "forgot": {
     "title": "Forgot to stop the timer?",
@@ -35,7 +40,8 @@
     "minutesPlaceholder": "Min",
     "back": "Back",
     "save": "Save",
-    "autoRecoveredNote": "Auto-recovered (forgot to stop)"
+    "autoRecoveredNote": "Auto-recovered (forgot to stop)",
+    "customTimeError": "Duration must be between 1 minute and {max}"
   },
   "calendar": {
     "manageEntries": "Manage entries and apply flex time",
@@ -50,7 +56,17 @@
     "overlapToast": "Entry overlaps with existing time range",
     "notEnoughFlexForPeriod": "Not enough flex time for period {period}",
     "close": "Close",
-    "noEntriesForDay": "No entries for this day"
+    "noEntriesForDay": "No entries for this day",
+    "autoFillFlex": "Auto-fill with Flex",
+    "autoFilledFlexNote": "Auto-filled flex time",
+    "legendLink": "What do the dots mean?",
+    "legendTitle": "Calendar markers",
+    "legendFullWork": "Full day completed with work time",
+    "legendWorkAndFlex": "Full day completed using flex time",
+    "legendFullFlex": "Full day covered by flex time",
+    "legendIncomplete": "Incomplete day — missing hours",
+    "legendFlexIncomplete": "Flex time used but day still incomplete",
+    "legendAllIncomplete": "Work and flex logged but day still incomplete"
   },
   "entryType": {
     "timer": "timer",
@@ -65,6 +81,20 @@
     "flex": "Flex",
     "weeklyTotal": "Weekly total",
     "showGraphs": "Show graphs",
+    "exportExcel": "Export to Excel",
+    "excelTitle": "Work Hours Report",
+    "excelSheetName": "Work Hours",
+    "excelColDate": "Date",
+    "excelColStart": "Start",
+    "excelColEnd": "End",
+    "excelColBreaks": "Breaks",
+    "excelColWorked": "Work hours",
+    "excelColFlexApplied": "Flex applied",
+    "excelColTarget": "Target",
+    "excelColBalance": "Balance",
+    "excelRowMonthlyTotal": "Monthly total",
+    "excelRowDaysWorked": "Days worked",
+    "excelRowTargetPerDay": "Target per day",
     "graphsTitle": "Work analytics",
     "graphsDescription": "Long-term trends based on your recorded entries.",
     "hoursPerMonth": "Hours per month",
@@ -95,6 +125,8 @@
     "roundToNearest": "Round to nearest",
     "haptics": "Haptics",
     "language": "Language",
+    "autoFillFlexOnStop": "Auto-fill flex on stop",
+    "autoFillFlexOnStopDescription": "Automatically use flex time to complete the day when stopping the timer",
     "effectiveTarget": "Effective daily target: {value}",
     "save": "Save settings",
     "savedToast": "Settings saved",

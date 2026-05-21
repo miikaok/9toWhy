@@ -6,6 +6,10 @@
     "swipeTipBody": "Przesun w lewo lub w prawo w dowolnym miejscu ekranu, aby szybko zmienic widok.",
     "gotIt": "Rozumiem"
   },
+  "whatsNew": {
+    "title": "Co nowego",
+    "gotIt": "Rozumiem"
+  },
   "tabs": {
     "timer": "Timer",
     "calendar": "Kalendarz",
@@ -22,7 +26,8 @@
     "teleportPrompt": "Uruchom timer od",
     "teleportCancel": "Anuluj",
     "teleportStart": "Uruchom z przeszlosci",
-    "weekNumber": "Tydzien {week}"
+    "weekNumber": "Tydzien {week}",
+    "autoFilledFlexNote": "Automatycznie uzupelniono przy zatrzymaniu timera"
   },
   "forgot": {
     "title": "Zapomniales zatrzymac timer?",
@@ -35,7 +40,8 @@
     "minutesPlaceholder": "Min",
     "back": "Wroc",
     "save": "Zapisz",
-    "autoRecoveredNote": "Przywrocono automatycznie (timer nie zostal zatrzymany)"
+    "autoRecoveredNote": "Przywrocono automatycznie (timer nie zostal zatrzymany)",
+    "customTimeError": "Czas musi byc od 1 minuty do {max}"
   },
   "calendar": {
     "manageEntries": "Zarzadzaj wpisami i uzyj czasu flex",
@@ -50,7 +56,17 @@
     "overlapToast": "Wpis naklada sie z istniejacym zakresem czasu",
     "notEnoughFlexForPeriod": "Brak wystarczajacego flexu dla okresu {period}",
     "close": "Zamknij",
-    "noEntriesForDay": "Brak wpisow na ten dzien"
+    "noEntriesForDay": "Brak wpisow na ten dzien",
+    "autoFillFlex": "Automatycznie uzupelnij flexem",
+    "autoFilledFlexNote": "Automatycznie uzupelniono flex",
+    "legendLink": "Co oznaczaja kropki?",
+    "legendTitle": "Znaczniki kalendarza",
+    "legendFullWork": "Pelny dzien przepracowany czasem pracy",
+    "legendWorkAndFlex": "Pelny dzien uzupelniony czasem flex",
+    "legendFullFlex": "Pelny dzien pokryty czasem flex",
+    "legendIncomplete": "Niepelny dzien — brakuje godzin",
+    "legendFlexIncomplete": "Uzyto flexu, ale dzien nadal niepelny",
+    "legendAllIncomplete": "Praca i flex zapisane, ale dzien nadal niepelny"
   },
   "entryType": {
     "timer": "timer",
@@ -65,6 +81,20 @@
     "flex": "Flex",
     "weeklyTotal": "Tygodniowy laczny czas pracy",
     "showGraphs": "Pokaz wykresy",
+    "exportExcel": "Eksportuj do Excela",
+    "excelTitle": "Raport czasu pracy",
+    "excelSheetName": "Czas pracy",
+    "excelColDate": "Data",
+    "excelColStart": "Start",
+    "excelColEnd": "Koniec",
+    "excelColBreaks": "Przerwy",
+    "excelColWorked": "Godziny pracy",
+    "excelColFlexApplied": "Uzyty flex",
+    "excelColTarget": "Cel",
+    "excelColBalance": "Saldo",
+    "excelRowMonthlyTotal": "Suma miesięczna",
+    "excelRowDaysWorked": "Dni pracy",
+    "excelRowTargetPerDay": "Cel dzienny",
     "graphsTitle": "Analityka pracy",
     "graphsDescription": "Trendy dlugoterminowe na podstawie zapisanych wpisow.",
     "hoursPerMonth": "Godziny na miesiac",
@@ -95,6 +125,8 @@
     "roundToNearest": "Zaokraglij do",
     "haptics": "Haptyka",
     "language": "Jezyk",
+    "autoFillFlexOnStop": "Automatycznie uzupelnij flex przy zatrzymaniu",
+    "autoFillFlexOnStopDescription": "Automatycznie uzyj czasu flex do uzupelnienia dnia przy zatrzymaniu timera",
     "effectiveTarget": "Efektywny cel dzienny: {value}",
     "save": "Zapisz ustawienia",
     "savedToast": "Ustawienia zapisane",

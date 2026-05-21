@@ -9,7 +9,7 @@ import {
   addMonths,
   subMonths,
 } from "date-fns"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { MonthSummary } from "./MonthSummary"
@@ -20,6 +20,7 @@ import { hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
 import { formatLocaleDate, getDateFnsLocale } from "@/lib/date-locale"
 import { ReportGraphsDrawer } from "./ReportGraphsDrawer"
+import { exportMonthReport } from "@/lib/excel"
 
 export function ReportView() {
   const { locale, t } = useI18n()
@@ -115,7 +116,7 @@ export function ReportView() {
       <div className="min-h-0 flex-1">
         <DailyBreakdown days={days} />
       </div>
-      <div className="shrink-0 pt-1">
+      <div className="flex shrink-0 flex-col gap-2 pt-1">
         <Button
           className="w-full"
           variant="secondary"
@@ -123,6 +124,31 @@ export function ReportView() {
           onClick={() => setGraphsOpen(true)}
         >
           {t("report.showGraphs")}
+        </Button>
+        <Button
+          className="w-full"
+          variant="outline"
+          onPointerDown={hapticTap}
+          onClick={() => {
+            exportMonthReport(days, settings, currentMonth, locale, {
+              title: t("report.excelTitle"),
+              sheetName: t("report.excelSheetName"),
+              colDate: t("report.excelColDate"),
+              colStart: t("report.excelColStart"),
+              colEnd: t("report.excelColEnd"),
+              colBreaks: t("report.excelColBreaks"),
+              colWorked: t("report.excelColWorked"),
+              colFlexApplied: t("report.excelColFlexApplied"),
+              colTarget: t("report.excelColTarget"),
+              colBalance: t("report.excelColBalance"),
+              rowMonthlyTotal: t("report.excelRowMonthlyTotal"),
+              rowDaysWorked: t("report.excelRowDaysWorked"),
+              rowTargetPerDay: t("report.excelRowTargetPerDay"),
+            })
+          }}
+        >
+          <Download className="size-4" />
+          {t("report.exportExcel")}
         </Button>
       </div>
       <ReportGraphsDrawer open={graphsOpen} onOpenChange={setGraphsOpen} />

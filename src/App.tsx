@@ -11,7 +11,17 @@ import { ReportView } from "@/components/report/ReportView"
 import { BankView } from "@/components/bank/BankView"
 import { SettingsView } from "@/components/settings/SettingsView"
 import { ForgotToStopDialog } from "@/components/timer/ForgotToStopDialog"
-import { useSettings, useTimerState, initializeDefaults } from "@/db/hooks"
+import { WhatsNewDialog, LAST_SEEN_KEY } from "@/components/WhatsNewDialog"
+import { parseChangelog, compareVersions } from "@/lib/changelog"
+import type { ChangelogEntry } from "@/lib/changelog"
+import { format } from "date-fns"
+import {
+  useSettings,
+  useTimerState,
+  useEntriesForDate,
+  saveTimerState,
+  initializeDefaults,
+} from "@/db/hooks"
 import { hapticTap, setHapticMode } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
 
@@ -44,11 +54,35 @@ export function App() {
     if (typeof window === "undefined") return false
     return localStorage.getItem("9towhy.swipeHintDismissed") !== "1"
   })
+  const [whatsNewEntry, setWhatsNewEntry] = useState<ChangelogEntry | null>(
+    null
+  )
   const settings = useSettings()
   const timerState = useTimerState()
 
+  // Resolve the date the active timer session started on (for auto-fill deficit calc)
+  const timerStartDate = timerState.startedAt
+    ? format(new Date(timerState.startedAt), "yyyy-MM-dd")
+    : ""
+  const startDateEntries = useEntriesForDate(timerStartDate)
+
   useEffect(() => {
     void initializeDefaults()
+  }, [])
+
+  useEffect(() => {
+    void fetch("/CHANGELOG.md")
+      .then((r) => r.text())
+      .then((text) => {
+        const entries = parseChangelog(text)
+        if (entries.length === 0) return
+        const latest = entries[0]
+        const lastSeen = localStorage.getItem(LAST_SEEN_KEY) ?? ""
+        if (compareVersions(latest.version, lastSeen) > 0) {
+          setWhatsNewEntry(latest)
+        }
+      })
+      .catch(() => undefined)
   }, [])
 
   useEffect(() => {
@@ -76,6 +110,16 @@ export function App() {
     const elapsedMinutes = totalMs / 60000
     return elapsedMinutes > settings.maxWorkMinutes
   }, [timerState, settings.maxWorkMinutes, nowMs])
+
+  // Bug 2 fix: freeze the timer the moment the forgot dialog becomes visible.
+  // The auto-pause effect in TimerView only fires when that tab is mounted, so
+  // on other tabs (or on app start with a stale overnight timer) pausedAt can
+  // be null while the dialog is open -- causing elapsed time to keep growing.
+  useEffect(() => {
+    if (!showForgotDialog) return
+    if (timerState.pausedAt) return
+    void saveTimerState({ pausedAt: new Date().toISOString() })
+  }, [showForgotDialog, timerState.pausedAt])
 
   const activeTabIndex = TAB_ORDER.indexOf(activeTab)
   const bind = useDrag(
@@ -139,6 +183,7 @@ export function App() {
         <ForgotToStopDialog
           timerState={timerState}
           settings={settings}
+          startDateEntries={startDateEntries}
           onResolved={() => undefined}
         />
       )}
@@ -174,6 +219,12 @@ export function App() {
             </div>
           </motion.div>
         </div>
+      )}
+      {whatsNewEntry && (
+        <WhatsNewDialog
+          entry={whatsNewEntry}
+          onClose={() => setWhatsNewEntry(null)}
+        />
       )}
     </AppShell>
   )

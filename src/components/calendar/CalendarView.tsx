@@ -14,6 +14,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { useDrag } from "@use-gesture/react"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { useEntriesForMonth, useSettings } from "@/db/hooks"
 import { getDaySummary, getEffectiveDailyTarget } from "@/lib/flex"
 import { cn } from "@/lib/utils"
@@ -26,10 +32,39 @@ import {
   getLocalizedWeekdays,
 } from "@/lib/date-locale"
 
+const COLOR_WORK = "#10b981"
+const COLOR_FLEX = "#3b82f6"
+const COLOR_MISSING = "#ef4444"
+
+function getDotStyle(colors: string[]): React.CSSProperties {
+  if (colors.length === 0) return { background: "transparent" }
+  if (colors.length === 1) return { background: colors[0] }
+  if (colors.length === 2)
+    return {
+      background: `linear-gradient(45deg, ${colors[0]} 50%, ${colors[1]} 50%)`,
+    }
+  return {
+    background: `linear-gradient(45deg, ${colors[0]} 33.3%, ${colors[1]} 33.3%, ${colors[1]} 66.6%, ${colors[2]} 66.6%)`,
+  }
+}
+
+const LEGEND_ENTRIES: Array<{ colors: string[]; key: string }> = [
+  { colors: [COLOR_WORK], key: "legendFullWork" },
+  { colors: [COLOR_WORK, COLOR_FLEX], key: "legendWorkAndFlex" },
+  { colors: [COLOR_FLEX], key: "legendFullFlex" },
+  { colors: [COLOR_MISSING], key: "legendIncomplete" },
+  { colors: [COLOR_FLEX, COLOR_MISSING], key: "legendFlexIncomplete" },
+  {
+    colors: [COLOR_WORK, COLOR_FLEX, COLOR_MISSING],
+    key: "legendAllIncomplete",
+  },
+]
+
 export function CalendarView() {
-  const { locale } = useI18n()
+  const { t, locale } = useI18n()
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [legendOpen, setLegendOpen] = useState(false)
 
   const year = currentMonth.getFullYear()
   const month = currentMonth.getMonth() + 1
@@ -46,12 +81,22 @@ export function CalendarView() {
   const startDayOfWeek = getDay(monthStart)
   const emptyDays = (startDayOfWeek - weekStartsOn + 7) % 7
 
-  function getDayStatus(dateStr: string): "met" | "under" | "flex" | "none" {
+  function getDayColors(dateStr: string): string[] {
     const summary = getDaySummary(dateStr, entries, settings)
-    if (!summary.hasEntries) return "none"
-    if (summary.hasFlexEntry) return "flex"
-    if (summary.workedMinutes >= dailyTarget) return "met"
-    return "under"
+    if (!summary.hasEntries) return []
+
+    const hasWork = summary.entries.some((e) => e.type !== "flex")
+    const hasFlex = summary.hasFlexEntry
+    const isComplete = summary.workedMinutes >= dailyTarget
+
+    if (hasWork && !hasFlex && isComplete) return [COLOR_WORK]
+    if (hasWork && hasFlex && isComplete) return [COLOR_WORK, COLOR_FLEX]
+    if (!hasWork && hasFlex && isComplete) return [COLOR_FLEX]
+    if (hasWork && !hasFlex && !isComplete) return [COLOR_MISSING]
+    if (!hasWork && hasFlex && !isComplete) return [COLOR_FLEX, COLOR_MISSING]
+    if (hasWork && hasFlex && !isComplete)
+      return [COLOR_WORK, COLOR_FLEX, COLOR_MISSING]
+    return []
   }
 
   const bind = useDrag(
@@ -111,7 +156,7 @@ export function CalendarView() {
 
           {days.map((day) => {
             const dateStr = format(day, "yyyy-MM-dd")
-            const status = getDayStatus(dateStr)
+            const colors = getDayColors(dateStr)
             const today = isToday(day)
 
             return (
@@ -136,19 +181,44 @@ export function CalendarView() {
                   {formatLocaleDate(day, "d", locale)}
                 </span>
                 <div
-                  className={cn(
-                    "size-1.5 rounded-full",
-                    status === "met" && "bg-emerald-500",
-                    status === "under" && "bg-destructive",
-                    status === "flex" && "bg-blue-500",
-                    status === "none" && "bg-transparent"
-                  )}
+                  className="size-2 rounded-full"
+                  style={getDotStyle(colors)}
                 />
               </motion.button>
             )
           })}
         </div>
       </div>
+
+      <div className="flex justify-center pb-1">
+        <button
+          className="text-xs text-muted-foreground/70 underline-offset-2 hover:text-muted-foreground hover:underline"
+          onClick={() => setLegendOpen(true)}
+        >
+          {t("calendar.legendLink")}
+        </button>
+      </div>
+
+      <Dialog open={legendOpen} onOpenChange={setLegendOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("calendar.legendTitle")}</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4 pt-1">
+            {LEGEND_ENTRIES.map(({ colors, key }) => (
+              <div key={key} className="flex items-center gap-4">
+                <div
+                  className="size-7 shrink-0 rounded-full"
+                  style={getDotStyle(colors)}
+                />
+                <span className="text-sm text-muted-foreground">
+                  {t(`calendar.${key}`)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <DayEntrySheet
         key={`${selectedDate ?? "no-date"}:${settings.defaultStartTime}:${settings.defaultEndTime}`}

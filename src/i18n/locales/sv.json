@@ -6,6 +6,10 @@
     "swipeTipBody": "Svep vänster eller höger var som helst på skärmen för att byta vy snabbt.",
     "gotIt": "Okej"
   },
+  "whatsNew": {
+    "title": "Nyheter",
+    "gotIt": "Okej"
+  },
   "tabs": {
     "timer": "Timer",
     "calendar": "Kalender",
@@ -22,7 +26,8 @@
     "teleportPrompt": "Starta timer från",
     "teleportCancel": "Avbryt",
     "teleportStart": "Starta från tidigare",
-    "weekNumber": "Vecka {week}"
+    "weekNumber": "Vecka {week}",
+    "autoFilledFlexNote": "Autofylld vid timerstopp"
   },
   "forgot": {
     "title": "Glömde du stoppa timern?",
@@ -35,7 +40,8 @@
     "minutesPlaceholder": "Min",
     "back": "Tillbaka",
     "save": "Spara",
-    "autoRecoveredNote": "Återställd automatiskt (glömde stoppa timern)"
+    "autoRecoveredNote": "Återställd automatiskt (glömde stoppa timern)",
+    "customTimeError": "Varaktigheten måste vara mellan 1 minut och {max}"
   },
   "calendar": {
     "manageEntries": "Hantera poster och använd flextid",
@@ -50,7 +56,17 @@
     "overlapToast": "Posten överlappar med ett befintligt tidsintervall",
     "notEnoughFlexForPeriod": "Inte tillräckligt med flex för perioden {period}",
     "close": "Stäng",
-    "noEntriesForDay": "Inga poster för denna dag"
+    "noEntriesForDay": "Inga poster för denna dag",
+    "autoFillFlex": "Fyll automatiskt med flex",
+    "autoFilledFlexNote": "Autofylld flextid",
+    "legendLink": "Vad betyder prickarna?",
+    "legendTitle": "Kalendermarkeringar",
+    "legendFullWork": "Hel dag genomförd med arbetstid",
+    "legendWorkAndFlex": "Hel dag genomförd med flextid",
+    "legendFullFlex": "Hel dag täckt med flextid",
+    "legendIncomplete": "Ofullständig dag — timmar saknas",
+    "legendFlexIncomplete": "Flextid använd men dagen fortfarande ofullständig",
+    "legendAllIncomplete": "Arbete och flex loggat men dagen fortfarande ofullständig"
   },
   "entryType": {
     "timer": "timer",
@@ -65,6 +81,20 @@
     "flex": "Flex",
     "weeklyTotal": "Veckans totala arbetstid",
     "showGraphs": "Visa grafer",
+    "exportExcel": "Exportera till Excel",
+    "excelTitle": "Arbetstidsrapport",
+    "excelSheetName": "Arbetstid",
+    "excelColDate": "Datum",
+    "excelColStart": "Start",
+    "excelColEnd": "Slut",
+    "excelColBreaks": "Raster",
+    "excelColWorked": "Arbetstid",
+    "excelColFlexApplied": "Flex använd",
+    "excelColTarget": "Mål",
+    "excelColBalance": "Saldo",
+    "excelRowMonthlyTotal": "Månadstotal",
+    "excelRowDaysWorked": "Arbetsdagar",
+    "excelRowTargetPerDay": "Mål per dag",
     "graphsTitle": "Arbetsanalys",
     "graphsDescription": "Langsiktiga trender baserade pa dina registreringar.",
     "hoursPerMonth": "Timmar per manad",
@@ -95,6 +125,8 @@
     "roundToNearest": "Avrunda till närmaste",
     "haptics": "Haptik",
     "language": "Språk",
+    "autoFillFlexOnStop": "Autofyll flex vid stopp",
+    "autoFillFlexOnStopDescription": "Använd automatiskt flextid för att slutföra dagen när timern stoppas",
     "effectiveTarget": "Effektivt dagsmål: {value}",
     "save": "Spara inställningar",
     "savedToast": "Inställningar sparade",

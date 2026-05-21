@@ -64,6 +64,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
     : 0
   const spendableDuration = floorDuration(remaining, settings.roundToMinutes)
   const canUseFlex = spendableDuration > 0
+  const canAutoFill = entries.length > 0 && remaining > 0
 
   const isRangeOverlapping = (startIso: string, endIso: string): boolean => {
     const startMs = new Date(startIso).getTime()
@@ -137,6 +138,30 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
     })
   }
 
+  const handleAutoFillFlex = async () => {
+    if (!date || remaining <= 0) return
+    const duration = roundDuration(remaining, settings.roundToMinutes)
+    const latestEndMs = entries.reduce((latest, entry) => {
+      const ms = new Date(entry.endTime).getTime()
+      return ms > latest ? ms : latest
+    }, 0)
+    const startMs =
+      latestEndMs > 0
+        ? latestEndMs
+        : new Date(`${date}T00:00:00`).getTime()
+    const startIso = new Date(startMs).toISOString()
+    const endIso = new Date(startMs + duration * 60000).toISOString()
+    hapticSuccess()
+    await addWorkEntry({
+      date,
+      startTime: startIso,
+      endTime: endIso,
+      duration,
+      type: "flex",
+      note: t("calendar.autoFilledFlexNote"),
+    })
+  }
+
   const handleDrawerOpenChange = (open: boolean) => {
     if (open) {
       setCustomStartTime(null)
@@ -205,6 +230,15 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
               {t("calendar.useFlexTime")}
             </Button>
           </div>
+          {canAutoFill && (
+            <Button
+              variant="outline"
+              onClick={handleAutoFillFlex}
+              onPointerDown={hapticTap}
+            >
+              {t("calendar.autoFillFlex")}
+            </Button>
+          )}
           <div className="rounded-lg bg-muted/50 p-2 text-xs text-muted-foreground">
             <p>
               {t("calendar.availableFlex", {

@@ -21,6 +21,7 @@ export interface Settings {
   roundToMinutes: number
   hapticMode: "off" | "subtle" | "full"
   locale: AppLocale
+  autoFillFlexOnStop: boolean
 }
 
 export interface TimerState {
@@ -41,6 +42,7 @@ export const DEFAULT_SETTINGS: Settings = {
   roundToMinutes: 15,
   hapticMode: "full",
   locale: "en",
+  autoFillFlexOnStop: false,
 }
 
 export const DEFAULT_TIMER_STATE: TimerState = {

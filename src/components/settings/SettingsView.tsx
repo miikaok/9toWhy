@@ -30,6 +30,7 @@ import {
 import { useI18n } from "@/hooks/use-i18n"
 import type { AppLocale } from "@/i18n/types"
 import { GB, ES, FI, PL, SE } from "country-flag-icons/react/3x2"
+import { Switch } from "@/components/ui/switch"
 
 const ROUNDING_OPTIONS = [1, 5, 10, 15, 30]
 const LANGUAGE_OPTIONS: {
@@ -61,6 +62,9 @@ export function SettingsView() {
     settings.hapticMode
   )
   const [locale, setLocale] = useState<AppLocale>(settings.locale)
+  const [autoFillFlexOnStop, setAutoFillFlexOnStop] = useState(
+    settings.autoFillFlexOnStop
+  )
   const [showSavedToast, setShowSavedToast] = useState(false)
 
   const parseClockToMinutes = (value: string): number => {
@@ -91,6 +95,7 @@ export function SettingsView() {
     setRoundTo(String(settings.roundToMinutes))
     setHapticModeState(settings.hapticMode)
     setLocale(settings.locale)
+    setAutoFillFlexOnStop(settings.autoFillFlexOnStop)
   }, [
     settings.defaultStartTime,
     settings.defaultEndTime,
@@ -99,6 +104,7 @@ export function SettingsView() {
     settings.roundToMinutes,
     settings.hapticMode,
     settings.locale,
+    settings.autoFillFlexOnStop,
   ])
 
   const onSave = async () => {
@@ -111,6 +117,7 @@ export function SettingsView() {
       roundToMinutes: Number(roundTo),
       hapticMode,
       locale,
+      autoFillFlexOnStop,
     })
     setHapticMode(hapticMode)
     hapticSuccess()
@@ -246,6 +253,22 @@ export function SettingsView() {
                 </SelectGroup>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="flex items-center justify-between gap-3 rounded-lg border border-border/50 p-3">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-sm font-medium">
+                {t("settings.autoFillFlexOnStop")}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {t("settings.autoFillFlexOnStopDescription")}
+              </span>
+            </div>
+            <Switch
+              checked={autoFillFlexOnStop}
+              onCheckedChange={setAutoFillFlexOnStop}
+              onPointerDown={hapticTap}
+            />
           </div>
 
           <div className="rounded-lg bg-muted/60 p-3 text-sm">

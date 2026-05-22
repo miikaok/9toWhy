@@ -263,7 +263,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
 
         {/* Entry list — scrolls */}
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
-          <DayDetail entries={entries} />
+          <DayDetail entries={entries.filter((e) => e.type !== "import")} />
         </div>
 
         {/* Summary strip — fixed above footer */}

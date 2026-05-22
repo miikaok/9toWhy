@@ -52,6 +52,9 @@
     "useFlexTime": "Använd flextid",
     "availableFlex": "Tillgänglig flex: {value}",
     "spendableNow": "Kan användas nu: {value}",
+    "summaryWorked": "Arbete: {value}",
+    "summaryFlex": "Flex: {value}",
+    "summaryTotal": "Totalt: {value}",
     "usedFlexNote": "Flextid använd",
     "overlapToast": "Posten överlappar med ett befintligt tidsintervall",
     "notEnoughFlexForPeriod": "Inte tillräckligt med flex för perioden {period}",
@@ -112,7 +115,14 @@
     "transactions": "Transaktioner",
     "noTransactions": "Inga transaktioner ännu",
     "earnedFromWork": "Intjänad från arbetsdag",
-    "usedFlex": "Använd flextid"
+    "usedFlex": "Använd flextid",
+    "importedFlex": "Importerat saldo",
+    "importFlex": "Importera",
+    "importFlexTitle": "Importera flextid",
+    "importFlexDescription": "Lägg till flextid från ett tidigare system till ditt saldo.",
+    "importedNote": "Importerad från tidigare system",
+    "importSave": "Importera",
+    "importError": "Ange en varaktighet som är större än noll"
   },
   "settings": {
     "title": "Dagliga inställningar",

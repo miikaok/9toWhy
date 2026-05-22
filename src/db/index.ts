@@ -7,7 +7,7 @@ export interface WorkEntry {
   startTime: string // ISO timestamp
   endTime: string // ISO timestamp
   duration: number // minutes (rounded)
-  type: "timer" | "manual" | "flex"
+  type: "timer" | "manual" | "flex" | "import"
   note: string
 }
 

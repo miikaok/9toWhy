@@ -52,6 +52,9 @@
     "useFlexTime": "Use Flex Time",
     "availableFlex": "Available flex: {value}",
     "spendableNow": "Spendable now: {value}",
+    "summaryWorked": "Work: {value}",
+    "summaryFlex": "Flex: {value}",
+    "summaryTotal": "Total: {value}",
     "usedFlexNote": "Used flex time",
     "overlapToast": "Entry overlaps with existing time range",
     "notEnoughFlexForPeriod": "Not enough flex time for period {period}",
@@ -112,7 +115,14 @@
     "transactions": "Transactions",
     "noTransactions": "No transactions yet",
     "earnedFromWork": "Earned from work day",
-    "usedFlex": "Used flex time"
+    "usedFlex": "Used flex time",
+    "importedFlex": "Imported balance",
+    "importFlex": "Import",
+    "importFlexTitle": "Import flex time",
+    "importFlexDescription": "Add flex time accumulated on a previous system to your balance.",
+    "importedNote": "Imported from previous system",
+    "importSave": "Import",
+    "importError": "Enter a duration greater than zero"
   },
   "settings": {
     "title": "Daily setup",

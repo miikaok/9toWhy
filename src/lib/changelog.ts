@@ -12,7 +12,9 @@ export function compareVersions(a: string, b: string): number {
   const pb = b.split(".").map(Number)
   const len = Math.max(pa.length, pb.length)
   for (let i = 0; i < len; i++) {
-    const diff = (pa[i] ?? 0) - (pb[i] ?? 0)
+    const na = Number.isFinite(pa[i]) ? (pa[i] as number) : 0
+    const nb = Number.isFinite(pb[i]) ? (pb[i] as number) : 0
+    const diff = na - nb
     if (diff !== 0) return diff
   }
   return 0

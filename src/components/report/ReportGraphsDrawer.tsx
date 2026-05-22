@@ -42,8 +42,8 @@ import {
 } from "@/components/ui/chart"
 import { useAllEntries, useEntriesInRange, useSettings } from "@/db/hooks"
 import {
-  getDailyFlex,
   getDailyWorkedMinutes,
+  netDayFlexBalance,
   groupEntriesByDate,
 } from "@/lib/flex"
 import { useI18n } from "@/hooks/use-i18n"
@@ -150,7 +150,7 @@ export function ReportGraphsDrawer({
     range.reduce((runningFlex, day) => {
       const date = format(day, "yyyy-MM-dd")
       const nextFlex =
-        runningFlex + getDailyFlex(byDate.get(date) ?? [], settings)
+        runningFlex + netDayFlexBalance(byDate.get(date) ?? [], settings)
       points.push({
         date,
         flexHours: Number((nextFlex / 60).toFixed(2)),

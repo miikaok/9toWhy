@@ -2,14 +2,21 @@ import { format } from "date-fns"
 import type { WorkEntry, Settings } from "@/db"
 import { roundDuration } from "@/lib/time"
 
+// Bug A fix: breakMinutes is for Excel export display only.
+// The timer runs continuously — the target is the full totalWorkMinutes.
 export function getEffectiveDailyTarget(settings: Settings): number {
-  return settings.totalWorkMinutes - settings.breakMinutes
+  return settings.totalWorkMinutes
 }
 
+// "import" entries are flex-balance adjustments, not actual work time.
 export function getDailyWorkedMinutes(entries: WorkEntry[]): number {
-  return entries.reduce((sum, e) => sum + e.duration, 0)
+  return entries
+    .filter((e) => e.type !== "import")
+    .reduce((sum, e) => sum + e.duration, 0)
 }
 
+// Returns how many minutes over/under target the non-flex work was for a day.
+// Negative means underworked; 0 if no work entries exist.
 export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
   const nonFlex = entries.filter((e) => e.type !== "flex")
   if (nonFlex.length === 0) return 0
@@ -18,6 +25,24 @@ export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
     workedMinutes - settings.totalWorkMinutes,
     settings.roundToMinutes
   )
+}
+
+// Bug B fix: net balance for a single day, matching BankView's formula.
+// Only credit overtime (positive earned flex); always debit explicit flex entries.
+// Deficit days (underworked without flex coverage) do not affect the balance,
+// consistent with how BankView displays transactions.
+export function netDayFlexBalance(
+  dayEntries: WorkEntry[],
+  settings: Settings
+): number {
+  const earned = getDailyFlex(dayEntries, settings)
+  const used = dayEntries
+    .filter((e) => e.type === "flex")
+    .reduce((sum, e) => sum + e.duration, 0)
+  const imported = dayEntries
+    .filter((e) => e.type === "import")
+    .reduce((sum, e) => sum + e.duration, 0)
+  return Math.max(earned, 0) - used + imported
 }
 
 export interface DaySummary {
@@ -48,7 +73,7 @@ export function calculateTotalFlex(
   const byDate = groupEntriesByDate(entries)
   let total = 0
   for (const [, dayEntries] of byDate) {
-    total += getDailyFlex(dayEntries, settings)
+    total += netDayFlexBalance(dayEntries, settings)
   }
   return total
 }
@@ -62,7 +87,7 @@ export function calculateFlexBeforeDate(
   let total = 0
   for (const [entryDate, dayEntries] of byDate) {
     if (entryDate >= date) continue
-    total += getDailyFlex(dayEntries, settings)
+    total += netDayFlexBalance(dayEntries, settings)
   }
   return total
 }

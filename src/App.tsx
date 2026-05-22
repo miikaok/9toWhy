@@ -71,13 +71,13 @@ export function App() {
   }, [])
 
   useEffect(() => {
-    void fetch("/CHANGELOG.md")
+    void fetch(`${import.meta.env.BASE_URL}CHANGELOG.md`)
       .then((r) => r.text())
       .then((text) => {
         const entries = parseChangelog(text)
         if (entries.length === 0) return
         const latest = entries[0]
-        const lastSeen = localStorage.getItem(LAST_SEEN_KEY) ?? ""
+        const lastSeen = localStorage.getItem(LAST_SEEN_KEY) ?? "0.0.0"
         if (compareVersions(latest.version, lastSeen) > 0) {
           setWhatsNewEntry(latest)
         }

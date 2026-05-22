@@ -8,14 +8,14 @@ interface GradientSlot {
 }
 
 const GRADIENTS: GradientSlot[] = [
-  { start: 5, end: 7, from: "#1e1b4b", to: "#fbbf7e" },
-  { start: 7, end: 9, from: "#f59e0b", to: "#fde68a" },
-  { start: 9, end: 12, from: "#38bdf8", to: "#e0f2fe" },
-  { start: 12, end: 15, from: "#7dd3fc", to: "#fde68a" },
-  { start: 15, end: 17, from: "#f97316", to: "#fb923c" },
-  { start: 17, end: 19, from: "#f87171", to: "#7c3aed" },
-  { start: 19, end: 22, from: "#1e1b4b", to: "#4c1d95" },
-  { start: 22, end: 5, from: "#0f0a1e", to: "#1e1b4b" },
+  { start: 5, end: 7, from: "#1e1b4b", to: "#fbbf7e" }, // pre-dawn: indigo → warm gold
+  { start: 7, end: 9, from: "#fde68a", to: "#67e8f9" }, // sunrise: pale gold → bright aqua
+  { start: 9, end: 12, from: "#22d3ee", to: "#ecfeff" }, // morning: vivid cyan → bright beach sky
+  { start: 12, end: 15, from: "#67e8f9", to: "#bae6fd" }, // midday: sparkling teal → light sky
+  { start: 15, end: 17, from: "#fbbf24", to: "#67e8f9" }, // afternoon: warm gold → teal water
+  { start: 17, end: 19, from: "#f87171", to: "#7c3aed" }, // sunset: keep
+  { start: 19, end: 22, from: "#1e1b4b", to: "#4c1d95" }, // evening: keep
+  { start: 22, end: 5, from: "#0f0a1e", to: "#1e1b4b" }, // night: keep
 ]
 
 function getGradientForHour(hour: number): { from: string; to: string } {
@@ -100,6 +100,28 @@ export function useIsDarkGradient(): boolean {
   const now = new Date()
   const hour = now.getHours()
   return hour >= 17 || hour < 7
+}
+
+/** Returns a background overlay opacity (0–1) that dims the gradient less during daytime */
+export function useGradientOverlayOpacity(): number {
+  const [opacity, setOpacity] = useState(() => getOverlayOpacity())
+
+  useEffect(() => {
+    const interval = setInterval(() => setOpacity(getOverlayOpacity()), 60000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return opacity
+}
+
+function getOverlayOpacity(): number {
+  const hour = new Date().getHours()
+  // Night: max dimming. Daytime: let the gradient breathe.
+  if (hour >= 22 || hour < 5) return 0.88 // deep night
+  if (hour >= 19) return 0.82 // evening
+  if (hour >= 17) return 0.75 // sunset
+  if (hour >= 7) return 0.6 // daytime — show the gradient
+  return 0.72 // pre-dawn
 }
 
 export function useTimeGradientColors(): { from: string; to: string } {

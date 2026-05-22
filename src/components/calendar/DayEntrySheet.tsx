@@ -58,6 +58,12 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
   )
   const dailyTarget = getEffectiveDailyTarget(settings)
   const worked = getDailyWorkedMinutes(entries)
+  const workedNonFlex = getDailyWorkedMinutes(
+    entries.filter((e) => e.type !== "flex")
+  )
+  const workedFlex = getDailyWorkedMinutes(
+    entries.filter((e) => e.type === "flex")
+  )
   const remaining = Math.max(dailyTarget - worked, 0)
   const availableFlex = date
     ? calculateFlexBeforeDate(allEntries, settings, date)
@@ -146,9 +152,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
       return ms > latest ? ms : latest
     }, 0)
     const startMs =
-      latestEndMs > 0
-        ? latestEndMs
-        : new Date(`${date}T00:00:00`).getTime()
+      latestEndMs > 0 ? latestEndMs : new Date(`${date}T00:00:00`).getTime()
     const startIso = new Date(startMs).toISOString()
     const endIso = new Date(startMs + duration * 60000).toISOString()
     hapticSuccess()
@@ -182,7 +186,8 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
           <DrawerDescription>{t("calendar.manageEntries")}</DrawerDescription>
         </DrawerHeader>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-4 px-4">
+        {/* Fixed controls — never scroll */}
+        <div className="flex shrink-0 flex-col gap-3 px-4">
           <div className="flex items-start gap-2">
             <div className="flex flex-1 flex-col gap-1">
               <label className="text-xs text-muted-foreground">
@@ -239,24 +244,73 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
               {t("calendar.autoFillFlex")}
             </Button>
           )}
-          <div className="rounded-lg bg-muted/50 p-2 text-xs text-muted-foreground">
-            <p>
+
+          {/* Flex info row */}
+          <div className="flex items-center justify-between rounded-lg bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+            <span>
               {t("calendar.availableFlex", {
                 value: formatDuration(availableFlex, locale),
               })}
-            </p>
-            <p>
+            </span>
+            <span className="text-muted-foreground/60">·</span>
+            <span>
               {t("calendar.spendableNow", {
                 value: formatDuration(Math.max(spendableDuration, 0), locale),
               })}
-            </p>
-          </div>
-          <div className="min-h-0 flex-1 overflow-y-auto pb-1">
-            <DayDetail entries={entries} />
+            </span>
           </div>
         </div>
 
-        <DrawerFooter className="shrink-0">
+        {/* Entry list — scrolls */}
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
+          <DayDetail entries={entries} />
+        </div>
+
+        {/* Summary strip — fixed above footer */}
+        {entries.length > 0 && (
+          <div className="shrink-0 border-t border-border/40 px-4 py-3">
+            <div className="flex items-center justify-around text-xs">
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="text-muted-foreground">
+                  {t("calendar.summaryWorked", { value: "" })
+                    .trim()
+                    .replace(/\s*:?\s*$/, "")}
+                </span>
+                <span className="font-semibold text-foreground">
+                  {formatDuration(workedNonFlex, locale)}
+                </span>
+              </div>
+              {workedFlex > 0 && (
+                <>
+                  <span className="text-border">|</span>
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-muted-foreground">
+                      {t("calendar.summaryFlex", { value: "" })
+                        .trim()
+                        .replace(/\s*:?\s*$/, "")}
+                    </span>
+                    <span className="font-semibold text-amber-400">
+                      {formatDuration(workedFlex, locale)}
+                    </span>
+                  </div>
+                  <span className="text-border">|</span>
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-muted-foreground">
+                      {t("calendar.summaryTotal", { value: "" })
+                        .trim()
+                        .replace(/\s*:?\s*$/, "")}
+                    </span>
+                    <span className="font-semibold text-foreground">
+                      {formatDuration(worked, locale)}
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        <DrawerFooter className="shrink-0 pt-0">
           <Button variant="outline" onClick={onClose}>
             {t("calendar.close")}
           </Button>

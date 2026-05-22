@@ -1,3 +1,14 @@
+# 1.4.0
+
+- Import flex time from a previous app or system directly into your balance via the Flex Bank
+- "What's New" popup now reliably appears after every update, even when the app is installed as a PWA
+- Fixed flex balance being wrong — deficit days no longer silently drain your bank, and imported flex counts everywhere it should
+- Fixed daily work target incorrectly subtracting break time (an 8h target now means 8h on the timer, not 7h 30m)
+- Redesigned Flex Bank — cleaner balance card, icons on each transaction row, import button at the bottom
+- Redesigned calendar day drawer — entries show a color dot per type and their time range, summary pinned at the bottom
+- Redesigned report view — summary cards now have icons and a weekly progress bar; daily rows show time range, entry type indicators, and the day's flex result
+- Background gradient during the day now has a beachy cyan feel and actually shows through instead of being swamped by the dark overlay
+
 # 1.3.0
 
 - Auto-fill flex time when stopping the timer (configurable in Settings)

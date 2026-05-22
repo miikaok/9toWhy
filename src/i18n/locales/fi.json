@@ -52,6 +52,9 @@
     "useFlexTime": "Käytä liukumaa",
     "availableFlex": "Saatavilla oleva liukuma: {value}",
     "spendableNow": "Käytettävissä nyt: {value}",
+    "summaryWorked": "Työ: {value}",
+    "summaryFlex": "Liukuma: {value}",
+    "summaryTotal": "Yhteensä: {value}",
     "usedFlexNote": "Käytetty liukumaa",
     "overlapToast": "Merkintä menee päällekkäin olemassa olevan aikavälin kanssa",
     "notEnoughFlexForPeriod": "Liukumaa ei ole riittävästi ajanjaksolle {period}",
@@ -112,7 +115,14 @@
     "transactions": "Tapahtumat",
     "noTransactions": "Ei tapahtumia vielä",
     "earnedFromWork": "Ansaittu työpäivästä",
-    "usedFlex": "Käytetty liukumaa"
+    "usedFlex": "Käytetty liukumaa",
+    "importedFlex": "Tuotu saldo",
+    "importFlex": "Tuo",
+    "importFlexTitle": "Tuo liukuma-aika",
+    "importFlexDescription": "Lisää aiemmassa järjestelmässä kertynyt liukuma-aika saldoosi.",
+    "importedNote": "Tuotu edellisestä järjestelmästä",
+    "importSave": "Tuo",
+    "importError": "Syötä kesto, joka on suurempi kuin nolla"
   },
   "settings": {
     "title": "Päiväasetukset",

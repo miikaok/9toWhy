@@ -52,6 +52,9 @@
     "useFlexTime": "Uzyj czasu flex",
     "availableFlex": "Dostepny flex: {value}",
     "spendableNow": "Mozna wykorzystac teraz: {value}",
+    "summaryWorked": "Praca: {value}",
+    "summaryFlex": "Flex: {value}",
+    "summaryTotal": "Lacznie: {value}",
     "usedFlexNote": "Wykorzystano czas flex",
     "overlapToast": "Wpis naklada sie z istniejacym zakresem czasu",
     "notEnoughFlexForPeriod": "Brak wystarczajacego flexu dla okresu {period}",
@@ -112,7 +115,14 @@
     "transactions": "Transakcje",
     "noTransactions": "Brak transakcji",
     "earnedFromWork": "Naliczono z dnia pracy",
-    "usedFlex": "Uzyto czasu flex"
+    "usedFlex": "Uzyto czasu flex",
+    "importedFlex": "Importowane saldo",
+    "importFlex": "Importuj",
+    "importFlexTitle": "Importuj czas flex",
+    "importFlexDescription": "Dodaj czas flex zgromadzony w poprzednim systemie do swojego salda.",
+    "importedNote": "Zaimportowano z poprzedniego systemu",
+    "importSave": "Importuj",
+    "importError": "Podaj czas dluzszy niz zero"
   },
   "settings": {
     "title": "Ustawienia dzienne",

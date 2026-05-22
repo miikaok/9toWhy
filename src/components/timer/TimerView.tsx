@@ -211,7 +211,7 @@ export function TimerView() {
   const liveDailyFlex = useMemo(() => {
     if (!isRunning && !isPaused) return dailyFlex
     const persistedNonFlexWorked = todayEntries
-      .filter((entry) => entry.type !== "flex")
+      .filter((entry) => entry.type !== "flex" && entry.type !== "import")
       .reduce((sum, entry) => sum + entry.duration, 0)
     const liveSessionMinutes = roundDuration(
       msToMinutes(elapsedMs),
@@ -232,7 +232,8 @@ export function TimerView() {
 
   const dayEntryRows = useMemo(
     () =>
-      [...todayEntries]
+      todayEntries
+        .filter((e) => e.type !== "import")
         .sort(
           (a, b) =>
             new Date(a.startTime).getTime() - new Date(b.startTime).getTime()

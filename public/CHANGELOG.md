@@ -1,3 +1,9 @@
+# 1.4.1
+
+- Fixed imported flex time showing up on the timer screen and corrupting the day's work tracking
+- Fixed imported flex causing phantom calendar dots and appearing as a day in the report
+- Report list now shows the most recent day at the top
+
 # 1.4.0
 
 - Import flex time from a previous app or system directly into your balance via the Flex Bank

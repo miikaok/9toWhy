@@ -103,7 +103,7 @@ export function getDaySummary(
     workedMinutes: getDailyWorkedMinutes(dayEntries),
     dailyFlex: getDailyFlex(dayEntries, settings),
     entries: dayEntries,
-    hasEntries: dayEntries.length > 0,
+    hasEntries: dayEntries.some((e) => e.type !== "import"),
     hasFlexEntry: dayEntries.some((e) => e.type === "flex"),
   }
 }

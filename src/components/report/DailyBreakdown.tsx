@@ -38,10 +38,12 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
           const flexEntries = day.entries.filter((e) => e.type === "flex")
 
           // Time window: earliest start → latest end across all real entries
-          const allTimes = day.entries.map((e) => ({
-            start: new Date(e.startTime).getTime(),
-            end: new Date(e.endTime).getTime(),
-          }))
+          const allTimes = day.entries
+            .filter((e) => e.type !== "import")
+            .map((e) => ({
+              start: new Date(e.startTime).getTime(),
+              end: new Date(e.endTime).getTime(),
+            }))
           const dayStart = allTimes.length
             ? new Date(Math.min(...allTimes.map((t) => t.start)))
             : null
@@ -68,8 +70,12 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
           const deltaLabel = formatDurationShort(flexDelta, locale)
           const deltaPositive = flexDelta >= 0
 
-          // Unique entry types for dots
-          const typeSet = Array.from(new Set(day.entries.map((e) => e.type)))
+          // Unique entry types for dots (import entries are invisible here)
+          const typeSet = Array.from(
+            new Set(
+              day.entries.filter((e) => e.type !== "import").map((e) => e.type)
+            )
+          )
 
           return (
             <div key={day.date} className="flex items-center gap-3 px-3 py-2.5">

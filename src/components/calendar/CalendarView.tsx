@@ -85,7 +85,9 @@ export function CalendarView() {
     const summary = getDaySummary(dateStr, entries, settings)
     if (!summary.hasEntries) return []
 
-    const hasWork = summary.entries.some((e) => e.type !== "flex")
+    const hasWork = summary.entries.some(
+      (e) => e.type !== "flex" && e.type !== "import"
+    )
     const hasFlex = summary.hasFlexEntry
     const isComplete = summary.workedMinutes >= dailyTarget
 

@@ -41,6 +41,7 @@ export function ReportView() {
     return range
       .map((day) => getDaySummary(format(day, "yyyy-MM-dd"), entries, settings))
       .filter((day) => day.hasEntries)
+      .reverse()
   }, [currentMonth, entries, settings])
 
   const totalMinutes = days.reduce((sum, d) => sum + d.workedMinutes, 0)

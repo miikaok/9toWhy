@@ -152,7 +152,7 @@ export function TimerView() {
       // Only count non-flex entries so we don't double-fill when flex was
       // already applied manually earlier in the day
       const nonFlexWorked = todayEntries
-        .filter((e) => e.type !== "flex")
+        .filter((e) => e.type !== "flex" && e.type !== "import")
         .reduce((sum, e) => sum + e.duration, 0)
       const totalWorkedAfter = nonFlexWorked + duration
       const deficit = settings.totalWorkMinutes - totalWorkedAfter

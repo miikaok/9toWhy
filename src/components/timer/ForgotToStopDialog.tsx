@@ -79,7 +79,7 @@ export function ForgotToStopDialog({
       // handleStop in TimerView would have done this, but it is bypassed here.
       if (settings.autoFillFlexOnStop) {
         const nonFlexWorked = startDateEntries
-          .filter((e) => e.type !== "flex")
+          .filter((e) => e.type !== "flex" && e.type !== "import")
           .reduce((sum, e) => sum + e.duration, 0)
         const totalWorkedAfter = nonFlexWorked + rounded
         const deficit = settings.totalWorkMinutes - totalWorkedAfter

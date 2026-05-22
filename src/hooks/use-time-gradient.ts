@@ -120,7 +120,7 @@ function getOverlayOpacity(): number {
   if (hour >= 22 || hour < 5) return 0.88 // deep night
   if (hour >= 19) return 0.82 // evening
   if (hour >= 17) return 0.75 // sunset
-  if (hour >= 7) return 0.6 // daytime — show the gradient
+  if (hour >= 7) return 0.74 // daytime — show the gradient
   return 0.72 // pre-dawn
 }
 

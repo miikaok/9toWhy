@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { lazy, Suspense, useMemo, useState } from "react"
 import {
   format,
   startOfMonth,
@@ -19,8 +19,12 @@ import { getDaySummary } from "@/lib/flex"
 import { hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
 import { formatLocaleDate, getDateFnsLocale } from "@/lib/date-locale"
-import { ReportGraphsDrawer } from "./ReportGraphsDrawer"
-import { exportMonthReport } from "@/lib/excel"
+
+const ReportGraphsDrawer = lazy(() =>
+  import("./ReportGraphsDrawer").then((m) => ({
+    default: m.ReportGraphsDrawer,
+  }))
+)
 
 export function ReportView() {
   const { locale, t } = useI18n()
@@ -131,7 +135,7 @@ export function ReportView() {
           variant="outline"
           onPointerDown={hapticTap}
           onClick={() => {
-            exportMonthReport(days, settings, currentMonth, locale, {
+            const labels = {
               title: t("report.excelTitle"),
               sheetName: t("report.excelSheetName"),
               colDate: t("report.excelColDate"),
@@ -145,14 +149,19 @@ export function ReportView() {
               rowMonthlyTotal: t("report.excelRowMonthlyTotal"),
               rowDaysWorked: t("report.excelRowDaysWorked"),
               rowTargetPerDay: t("report.excelRowTargetPerDay"),
-            })
+            }
+            void import("@/lib/excel").then(({ exportMonthReport }) =>
+              exportMonthReport(days, settings, currentMonth, locale, labels)
+            )
           }}
         >
           <Download className="size-4" />
           {t("report.exportExcel")}
         </Button>
       </div>
-      <ReportGraphsDrawer open={graphsOpen} onOpenChange={setGraphsOpen} />
+      <Suspense fallback={null}>
+        <ReportGraphsDrawer open={graphsOpen} onOpenChange={setGraphsOpen} />
+      </Suspense>
     </motion.div>
   )
 }

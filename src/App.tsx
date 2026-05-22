@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useDrag } from "@use-gesture/react"
 import { Hand } from "lucide-react"
@@ -6,10 +6,25 @@ import { Button } from "@/components/ui/button"
 import { AppShell } from "@/components/layout/AppShell"
 import { BottomNav, type TabId } from "@/components/layout/BottomNav"
 import { TimerView } from "@/components/timer/TimerView"
-import { CalendarView } from "@/components/calendar/CalendarView"
-import { ReportView } from "@/components/report/ReportView"
-import { BankView } from "@/components/bank/BankView"
-import { SettingsView } from "@/components/settings/SettingsView"
+
+const CalendarView = lazy(() =>
+  import("@/components/calendar/CalendarView").then((m) => ({
+    default: m.CalendarView,
+  }))
+)
+const ReportView = lazy(() =>
+  import("@/components/report/ReportView").then((m) => ({
+    default: m.ReportView,
+  }))
+)
+const BankView = lazy(() =>
+  import("@/components/bank/BankView").then((m) => ({ default: m.BankView }))
+)
+const SettingsView = lazy(() =>
+  import("@/components/settings/SettingsView").then((m) => ({
+    default: m.SettingsView,
+  }))
+)
 import { ForgotToStopDialog } from "@/components/timer/ForgotToStopDialog"
 import { WhatsNewDialog, LAST_SEEN_KEY } from "@/components/WhatsNewDialog"
 import { parseChangelog, compareVersions } from "@/lib/changelog"
@@ -159,18 +174,20 @@ export function App() {
         className="mx-auto flex h-full min-h-0 w-full max-w-md touch-pan-y flex-col overflow-hidden"
         {...bind()}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            transition={{ duration: 0.2 }}
-            className="flex min-h-0 flex-1 overflow-hidden"
-          >
-            {content}
-          </motion.div>
-        </AnimatePresence>
+        <Suspense fallback={null}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.2 }}
+              className="flex min-h-0 flex-1 overflow-hidden"
+            >
+              {content}
+            </motion.div>
+          </AnimatePresence>
+        </Suspense>
         <BottomNav
           activeTab={activeTab}
           onTabChange={(tab) => {

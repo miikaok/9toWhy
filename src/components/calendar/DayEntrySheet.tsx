@@ -65,8 +65,11 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
     entries.filter((e) => e.type === "flex")
   )
   const remaining = Math.max(dailyTarget - worked, 0)
+  const importedThisDay = entries
+    .filter((e) => e.type === "import")
+    .reduce((sum, e) => sum + e.duration, 0)
   const availableFlex = date
-    ? calculateFlexBeforeDate(allEntries, settings, date)
+    ? calculateFlexBeforeDate(allEntries, settings, date) + importedThisDay
     : 0
   const spendableDuration = floorDuration(remaining, settings.roundToMinutes)
   const canUseFlex = spendableDuration > 0

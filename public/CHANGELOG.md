@@ -1,3 +1,9 @@
+# 1.4.2
+
+- Fixed imported flex balance not showing in the calendar drawer for the current day
+- Fixed background flashing bright white on app launch before settling to dark
+- App loads faster — charts and Excel export are now only fetched when you actually use them, and non-timer tabs load on first visit instead of upfront
+
 # 1.4.1
 
 - Fixed imported flex time showing up on the timer screen and corrupting the day's work tracking

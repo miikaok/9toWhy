@@ -64,9 +64,10 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
               : "bg-emerald-500" // full day, pure work
             : "bg-destructive" // incomplete
 
-          // Flex delta label: day.dailyFlex is earned (overtime over target)
-          // net for the day = dailyFlex (earned) - flexUsed
-          const flexDelta = day.dailyFlex - flexUsed
+          // Flex delta: only credit overtime (positive earned flex), always debit used flex.
+          // day.dailyFlex can be negative (underworked) — clamping to 0 prevents
+          // deficit days from compounding on top of the used amount.
+          const flexDelta = Math.max(day.dailyFlex, 0) - flexUsed
           const deltaLabel = formatDurationShort(flexDelta, locale)
           const deltaPositive = flexDelta >= 0
 

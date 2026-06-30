@@ -135,7 +135,6 @@ export function SettingsView() {
       key="settings"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
       className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pt-6"
     >
       <Card className="flex min-h-0 flex-1 flex-col bg-card/65 backdrop-blur-sm">

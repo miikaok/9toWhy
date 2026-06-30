@@ -63,3 +63,23 @@ export function parseTimeInput(value: string): number {
   const [h, m] = value.split(":").map(Number)
   return (h || 0) * 60 + (m || 0)
 }
+
+export function dateTimeToIso(date: string, time: string): string {
+  return new Date(`${date}T${time}:00`).toISOString()
+}
+
+export function hasOverlap(
+  startIso: string,
+  endIso: string,
+  entries: ReadonlyArray<{ id: number; startTime: string; endTime: string }>,
+  excludeId?: number
+): boolean {
+  const startMs = new Date(startIso).getTime()
+  const endMs = new Date(endIso).getTime()
+  return entries.some((entry) => {
+    if (excludeId !== undefined && entry.id === excludeId) return false
+    const entryStartMs = new Date(entry.startTime).getTime()
+    const entryEndMs = new Date(entry.endTime).getTime()
+    return startMs < entryEndMs && endMs > entryStartMs
+  })
+}

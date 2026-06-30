@@ -115,118 +115,125 @@ export function CalendarView() {
   )
 
   return (
-    <div
-      className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pt-6"
-      {...bind()}
+    <motion.div
+      key="calendar"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex min-h-0 flex-1 overflow-hidden"
     >
-      <div className="flex items-center justify-between">
-        <Button
-          variant="ghost"
-          size="icon"
-          onPointerDown={hapticTap}
-          onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-        >
-          <ChevronLeft />
-        </Button>
-        <h2 className="text-lg font-semibold">
-          {formatLocaleDate(currentMonth, "LLLL yyyy", locale)}
-        </h2>
-        <Button
-          variant="ghost"
-          size="icon"
-          onPointerDown={hapticTap}
-          onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-        >
-          <ChevronRight />
-        </Button>
-      </div>
-
-      <div className="min-h-0 flex-1 overflow-y-auto pb-1">
-        <div className="grid grid-cols-7 gap-1">
-          {weekdays.map((day) => (
-            <div
-              key={day}
-              className="py-1 text-center text-xs font-medium text-muted-foreground"
-            >
-              {day}
-            </div>
-          ))}
-
-          {Array.from({ length: emptyDays }).map((_, i) => (
-            <div key={`empty-${i}`} />
-          ))}
-
-          {days.map((day) => {
-            const dateStr = format(day, "yyyy-MM-dd")
-            const colors = getDayColors(dateStr)
-            const today = isToday(day)
-
-            return (
-              <motion.button
-                key={dateStr}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedDate(dateStr)}
-                className={cn(
-                  "relative flex flex-col items-center gap-0.5 rounded-lg py-2 transition-colors",
-                  today && "bg-primary/10",
-                  selectedDate === dateStr && "ring-2 ring-primary"
-                )}
-              >
-                <span
-                  className={cn(
-                    "text-sm tabular-nums",
-                    today && "font-bold",
-                    !isSameMonth(day, currentMonth) &&
-                      "text-muted-foreground/50"
-                  )}
-                >
-                  {formatLocaleDate(day, "d", locale)}
-                </span>
-                <div
-                  className="size-2 rounded-full"
-                  style={getDotStyle(colors)}
-                />
-              </motion.button>
-            )
-          })}
+      <div
+        className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pt-6"
+        {...bind()}
+      >
+        <div className="flex items-center justify-between">
+          <Button
+            variant="ghost"
+            size="icon"
+            onPointerDown={hapticTap}
+            onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+          >
+            <ChevronLeft />
+          </Button>
+          <h2 className="text-lg font-semibold">
+            {formatLocaleDate(currentMonth, "LLLL yyyy", locale)}
+          </h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            onPointerDown={hapticTap}
+            onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+          >
+            <ChevronRight />
+          </Button>
         </div>
-      </div>
 
-      <div className="flex justify-center pb-1">
-        <button
-          className="text-xs text-muted-foreground/70 underline-offset-2 hover:text-muted-foreground hover:underline"
-          onClick={() => setLegendOpen(true)}
-        >
-          {t("calendar.legendLink")}
-        </button>
-      </div>
-
-      <Dialog open={legendOpen} onOpenChange={setLegendOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("calendar.legendTitle")}</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col gap-4 pt-1">
-            {LEGEND_ENTRIES.map(({ colors, key }) => (
-              <div key={key} className="flex items-center gap-4">
-                <div
-                  className="size-7 shrink-0 rounded-full"
-                  style={getDotStyle(colors)}
-                />
-                <span className="text-sm text-muted-foreground">
-                  {t(`calendar.${key}`)}
-                </span>
+        <div className="min-h-0 flex-1 overflow-y-auto pb-1">
+          <div className="grid grid-cols-7 gap-1">
+            {weekdays.map((day) => (
+              <div
+                key={day}
+                className="py-1 text-center text-xs font-medium text-muted-foreground"
+              >
+                {day}
               </div>
             ))}
-          </div>
-        </DialogContent>
-      </Dialog>
 
-      <DayEntrySheet
-        key={`${selectedDate ?? "no-date"}:${settings.defaultStartTime}:${settings.defaultEndTime}`}
-        date={selectedDate}
-        onClose={() => setSelectedDate(null)}
-      />
-    </div>
+            {Array.from({ length: emptyDays }).map((_, i) => (
+              <div key={`empty-${i}`} />
+            ))}
+
+            {days.map((day) => {
+              const dateStr = format(day, "yyyy-MM-dd")
+              const colors = getDayColors(dateStr)
+              const today = isToday(day)
+
+              return (
+                <motion.button
+                  key={dateStr}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedDate(dateStr)}
+                  className={cn(
+                    "relative flex flex-col items-center gap-0.5 rounded-lg py-2 transition-colors",
+                    today && "bg-primary/10",
+                    selectedDate === dateStr && "ring-2 ring-primary"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-sm tabular-nums",
+                      today && "font-bold",
+                      !isSameMonth(day, currentMonth) &&
+                        "text-muted-foreground/50"
+                    )}
+                  >
+                    {formatLocaleDate(day, "d", locale)}
+                  </span>
+                  <div
+                    className="size-2 rounded-full"
+                    style={getDotStyle(colors)}
+                  />
+                </motion.button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="flex justify-center pb-1">
+          <button
+            className="text-xs text-muted-foreground/70 underline-offset-2 hover:text-muted-foreground hover:underline"
+            onClick={() => setLegendOpen(true)}
+          >
+            {t("calendar.legendLink")}
+          </button>
+        </div>
+
+        <Dialog open={legendOpen} onOpenChange={setLegendOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("calendar.legendTitle")}</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 pt-1">
+              {LEGEND_ENTRIES.map(({ colors, key }) => (
+                <div key={key} className="flex items-center gap-4">
+                  <div
+                    className="size-7 shrink-0 rounded-full"
+                    style={getDotStyle(colors)}
+                  />
+                  <span className="text-sm text-muted-foreground">
+                    {t(`calendar.${key}`)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <DayEntrySheet
+          key={`${selectedDate ?? "no-date"}:${settings.defaultStartTime}:${settings.defaultEndTime}`}
+          date={selectedDate}
+          onClose={() => setSelectedDate(null)}
+        />
+      </div>
+    </motion.div>
   )
 }

@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react"
-import { createPortal } from "react-dom"
 import {
   Drawer,
   DrawerContent,
@@ -10,30 +9,34 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DayDetail } from "./DayDetail"
+import { DayDetail, type EditResult } from "./DayDetail"
 import {
   useAllEntries,
   useEntriesForDate,
   useSettings,
   addWorkEntry,
+  updateWorkEntry,
 } from "@/db/hooks"
 import {
   calculateFlexBeforeDate,
   getDailyWorkedMinutes,
   getEffectiveDailyTarget,
 } from "@/lib/flex"
-import { floorDuration, formatDuration, roundDuration } from "@/lib/time"
+import {
+  dateTimeToIso,
+  floorDuration,
+  formatDuration,
+  hasOverlap,
+  roundDuration,
+} from "@/lib/time"
 import { hapticSuccess, hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
+import { useToast } from "@/hooks/use-toast"
 import { formatLocaleDate } from "@/lib/date-locale"
 
 interface DayEntrySheetProps {
   date: string | null
   onClose: () => void
-}
-
-function toIso(date: string, time: string) {
-  return new Date(`${date}T${time}:00`).toISOString()
 }
 
 export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
@@ -44,7 +47,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
   const [customStartTime, setCustomStartTime] = useState<string | null>(null)
   const [customEndTime, setCustomEndTime] = useState<string | null>(null)
   const [note, setNote] = useState("")
-  const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const { showToast, toast } = useToast()
   const startTime = customStartTime ?? settings.defaultStartTime
   const endTime = customEndTime ?? settings.defaultEndTime
 
@@ -75,29 +78,14 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
   const canUseFlex = spendableDuration > 0
   const canAutoFill = entries.length > 0 && remaining > 0
 
-  const isRangeOverlapping = (startIso: string, endIso: string): boolean => {
-    const startMs = new Date(startIso).getTime()
-    const endMs = new Date(endIso).getTime()
-    return entries.some((entry) => {
-      const entryStartMs = new Date(entry.startTime).getTime()
-      const entryEndMs = new Date(entry.endTime).getTime()
-      return startMs < entryEndMs && endMs > entryStartMs
-    })
-  }
-
-  const showToast = (message: string) => {
-    setToastMessage(message)
-    setTimeout(() => setToastMessage(null), 2200)
-  }
-
   const showOverlapWarning = () => {
     showToast(t("calendar.overlapToast"))
   }
 
   const handleAddManual = async () => {
     if (!date) return
-    const start = toIso(date, startTime)
-    const end = toIso(date, endTime)
+    const start = dateTimeToIso(date, startTime)
+    const end = dateTimeToIso(date, endTime)
     const rawMinutes =
       (new Date(end).getTime() - new Date(start).getTime()) / 60000
     const rounded = roundDuration(
@@ -105,7 +93,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
       settings.roundToMinutes
     )
     if (rounded <= 0) return
-    if (isRangeOverlapping(start, end)) {
+    if (hasOverlap(start, end, entries)) {
       showOverlapWarning()
       return
     }
@@ -123,9 +111,9 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
 
   const handleUseFlex = async () => {
     if (!date) return
-    const start = toIso(date, startTime)
-    const end = toIso(date, endTime)
-    if (isRangeOverlapping(start, end)) {
+    const start = dateTimeToIso(date, startTime)
+    const end = dateTimeToIso(date, endTime)
+    if (hasOverlap(start, end, entries)) {
       showOverlapWarning()
       return
     }
@@ -167,6 +155,34 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
       type: "flex",
       note: t("calendar.autoFilledFlexNote"),
     })
+  }
+
+  const handleSaveEdit = async (
+    id: number,
+    startIso: string,
+    endIso: string
+  ): Promise<EditResult> => {
+    const rawMinutes =
+      (new Date(endIso).getTime() - new Date(startIso).getTime()) / 60000
+    const rounded = roundDuration(
+      Math.max(rawMinutes, 0),
+      settings.roundToMinutes
+    )
+    if (rounded <= 0) {
+      showToast(t("calendar.invalidRangeToast"))
+      return "invalid"
+    }
+    if (hasOverlap(startIso, endIso, entries, id)) {
+      showOverlapWarning()
+      return "overlap"
+    }
+    hapticSuccess()
+    await updateWorkEntry(id, {
+      startTime: startIso,
+      endTime: endIso,
+      duration: rounded,
+    })
+    return "ok"
   }
 
   const handleDrawerOpenChange = (open: boolean) => {
@@ -266,7 +282,10 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
 
         {/* Entry list — scrolls */}
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2">
-          <DayDetail entries={entries.filter((e) => e.type !== "import")} />
+          <DayDetail
+            entries={entries.filter((e) => e.type !== "import")}
+            onSaveEdit={handleSaveEdit}
+          />
         </div>
 
         {/* Summary strip — fixed above footer */}
@@ -319,16 +338,7 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
           </Button>
         </DrawerFooter>
       </DrawerContent>
-      {toastMessage &&
-        typeof document !== "undefined" &&
-        createPortal(
-          <div className="pointer-events-none fixed inset-x-0 bottom-[calc(76px+env(safe-area-inset-bottom))] z-100 flex justify-center px-4">
-            <div className="rounded-lg border bg-background/95 px-3 py-2 text-sm shadow-lg backdrop-blur-sm">
-              {toastMessage}
-            </div>
-          </div>,
-          document.body
-        )}
+      {toast}
     </Drawer>
   )
 }

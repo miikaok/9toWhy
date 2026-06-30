@@ -28,13 +28,15 @@ import {
   getDailyFlex,
   todayDateString,
 } from "@/lib/flex"
-import { roundDuration, msToMinutes, minutesToMs } from "@/lib/time"
+import { roundDuration, msToMinutes, minutesToMs, hasOverlap } from "@/lib/time"
 import { hapticSuccess, hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
+import { useToast } from "@/hooks/use-toast"
 import { formatLocaleDate } from "@/lib/date-locale"
 
 export function TimerView() {
   const { t, locale } = useI18n()
+  const { showToast, toast } = useToast()
   const settings = useSettings()
   const timerState = useTimerState()
   const today = todayDateString()
@@ -190,7 +192,20 @@ export function TimerView() {
     const now = new Date()
     const startedAt = new Date(now)
     startedAt.setHours(hours, minutes, 0, 0)
-    if (startedAt.getTime() >= now.getTime()) return
+    if (startedAt.getTime() >= now.getTime()) {
+      showToast(t("timer.teleportFuture"))
+      return
+    }
+    if (
+      hasOverlap(
+        startedAt.toISOString(),
+        now.toISOString(),
+        todayEntries.filter((entry) => entry.type !== "import")
+      )
+    ) {
+      showToast(t("timer.teleportOverlap"))
+      return
+    }
     hapticSuccess()
     await saveTimerState({
       running: true,
@@ -252,7 +267,6 @@ export function TimerView() {
       key="timer"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
       className="flex min-h-0 flex-1 flex-col items-center gap-6 overflow-hidden px-4 pt-6"
     >
       <div className="text-center">
@@ -363,6 +377,7 @@ export function TimerView() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {toast}
     </motion.div>
   )
 }

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { useDrag } from "@use-gesture/react"
 import { Hand } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -154,17 +154,17 @@ export function App() {
   const content = useMemo(() => {
     switch (activeTab) {
       case "timer":
-        return <TimerView />
+        return <TimerView key="timer" />
       case "calendar":
-        return <CalendarView />
+        return <CalendarView key="calendar" />
       case "report":
-        return <ReportView />
+        return <ReportView key="report" />
       case "bank":
-        return <BankView />
+        return <BankView key="bank" />
       case "settings":
-        return <SettingsView />
+        return <SettingsView key="settings" />
       default:
-        return <TimerView />
+        return <TimerView key="timer" />
     }
   }, [activeTab])
 
@@ -174,20 +174,9 @@ export function App() {
         className="mx-auto flex h-full min-h-0 w-full max-w-md touch-pan-y flex-col overflow-hidden"
         {...bind()}
       >
-        <Suspense fallback={null}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.2 }}
-              className="flex min-h-0 flex-1 overflow-hidden"
-            >
-              {content}
-            </motion.div>
-          </AnimatePresence>
-        </Suspense>
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <Suspense fallback={null}>{content}</Suspense>
+        </div>
         <BottomNav
           activeTab={activeTab}
           onTabChange={(tab) => {

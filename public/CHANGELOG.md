@@ -1,3 +1,12 @@
+# 1.5.0
+
+- Edit the start and end times of tracked entries directly from the calendar day view, with overlap protection so two entries can't cover the same time
+- "Forgot to start the timer" now refuses a start time that overlaps an existing entry and tells you why, instead of silently doing nothing
+- "Forgot to start the timer" now shows a message when the chosen start time is in the future
+- Fixed switching tabs sometimes briefly rendering two screens stacked on top of each other
+- Fixed the shown screen occasionally getting out of sync with the selected tab when switching quickly
+- Fixed pop-up messages vanishing almost instantly when actions were triggered in quick succession
+
 # 1.4.2
 
 - Fixed imported flex balance not showing in the calendar drawer for the current day

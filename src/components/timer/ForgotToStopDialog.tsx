@@ -41,14 +41,11 @@ export function ForgotToStopDialog({
 
   const startedAt = new Date(timerState.startedAt)
 
-  // After Bug 2 fix, pausedAt is always set before the dialog renders.
-  // The else branch is a safe fallback for any edge case where it isn't.
-  let totalMs = timerState.accumulatedMs
-  if (timerState.pausedAt) {
-    totalMs += new Date(timerState.pausedAt).getTime() - startedAt.getTime()
-  } else {
-    totalMs += Date.now() - startedAt.getTime()
-  }
+  if (!timerState.pausedAt) return null
+
+  const totalMs =
+    timerState.accumulatedMs +
+    (new Date(timerState.pausedAt).getTime() - startedAt.getTime())
 
   const elapsedMinutes = msToMinutes(totalMs)
   const dailyTarget = getEffectiveDailyTarget(settings)

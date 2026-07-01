@@ -1,3 +1,13 @@
+# 1.5.1
+
+- Timer screen now has a one-tap button to complete today with your configured workday, filling only the remaining target instead of forcing you to use the timer
+- Settings now has separate Setup and Data tabs, with full local backup export, backup import, and a reset-all-data flow
+- Imported flex rows in the Flex Bank can now be deleted, and calendar entry deletion now asks for confirmation instead of deleting immediately
+- Fixed overnight timer/flex recovery using the wrong day when a session started before midnight and ended after it
+- Fixed manual work and flex entries with invalid time ranges silently doing nothing; they now show an error message
+- Report view now shows a proper empty state for months with no entries
+- Flex import now accepts overflow minutes such as 90 and keeps the correct total instead of blocking it
+
 # 1.5.0
 
 - Edit the start and end times of tracked entries directly from the calendar day view, with overlap protection so two entries can't cover the same time

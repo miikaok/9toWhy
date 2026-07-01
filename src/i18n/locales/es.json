@@ -29,7 +29,11 @@
     "teleportOverlap": "Ese intervalo se superpone con una entrada existente",
     "teleportFuture": "La hora de inicio debe ser anterior a ahora",
     "weekNumber": "Semana {week}",
-    "autoFilledFlexNote": "Relleno automatico al detener temporizador"
+    "autoFilledFlexNote": "Relleno automatico al detener temporizador",
+    "fillDayLabel": "Completar dia con tiempo de trabajo",
+    "fillDayNote": "Dia laboral completo rellenado",
+    "fillDayComplete": "El dia de hoy ya esta completo",
+    "fillDayOverlap": "La jornada laboral se superpone con una entrada existente"
   },
   "forgot": {
     "title": "Olvidaste detener el temporizador?",
@@ -75,12 +79,17 @@
     "legendFullFlex": "Dia completo cubierto con tiempo flex",
     "legendIncomplete": "Dia incompleto — faltan horas",
     "legendFlexIncomplete": "Tiempo flex usado pero dia aun incompleto",
-    "legendAllIncomplete": "Trabajo y flex registrados pero dia aun incompleto"
+    "legendAllIncomplete": "Trabajo y flex registrados pero dia aun incompleto",
+    "deleteEntry": "Eliminar entrada",
+    "deleteConfirmTitle": "¿Eliminar entrada?",
+    "deleteConfirmBody": "Esto eliminara la entrada de forma permanente.",
+    "delete": "Eliminar"
   },
   "entryType": {
     "timer": "temporizador",
     "manual": "manual",
-    "flex": "flex"
+    "flex": "flex",
+    "import": "importado"
   },
   "report": {
     "total": "Total",
@@ -111,7 +120,8 @@
     "hoursByDayAverage": "Promedio de horas por dia",
     "allTime": "Todo el tiempo",
     "flexEvolution": "Evolucion del flex",
-    "currentYearToDate": "Ano actual hasta hoy"
+    "currentYearToDate": "Ano actual hasta hoy",
+    "noEntriesForMonth": "Sin entradas este mes"
   },
   "bank": {
     "title": "Banco de flex",
@@ -128,7 +138,10 @@
     "importFlexDescription": "Agrega tiempo flex acumulado en un sistema anterior a tu saldo.",
     "importedNote": "Importado del sistema anterior",
     "importSave": "Importar",
-    "importError": "Introduce una duracion mayor que cero"
+    "importError": "Introduce una duracion mayor que cero",
+    "deleteImport": "Eliminar saldo importado",
+    "deleteImportTitle": "¿Eliminar saldo importado?",
+    "deleteImportBody": "Esto eliminara el saldo flex importado de tu banco."
   },
   "settings": {
     "title": "Configuracion diaria",
@@ -155,6 +168,32 @@
       "sv": "Sueco",
       "pl": "Polaco",
       "es": "Espanol"
+    },
+    "tabSetup": "Configuración diaria",
+    "tabData": "Datos de la app",
+    "data": {
+      "description": "Exporta, importa o elimina todos los datos guardados en este dispositivo.",
+      "exportTitle": "Exportar datos",
+      "exportDescription": "Descarga una copia de seguridad de todo lo guardado en este dispositivo como archivo .db.",
+      "exportButton": "Exportar copia",
+      "exportDone": "Exportado a {file}",
+      "exportError": "Error al exportar",
+      "importTitle": "Importar datos",
+      "importDescription": "Restaura desde un archivo de copia .db. Esto reemplaza todos los datos actuales.",
+      "importButton": "Importar copia",
+      "importDone": "Se importaron {count} registros",
+      "importInvalid": "Ese archivo no es una copia válida de 9toWhy",
+      "importConfirmTitle": "¿Importar y reemplazar todos los datos?",
+      "importConfirmDescription": "Importar \"{file}\" reemplazará permanentemente todos los datos guardados en este dispositivo.",
+      "deleteTitle": "Eliminar todos los datos",
+      "deleteDescription": "Elimina de forma permanente cada registro, ajuste y temporizador de este dispositivo.",
+      "deleteButton": "Eliminar todo",
+      "deleteDone": "Todos los datos eliminados",
+      "deleteConfirmTitle": "¿Eliminar todos los datos?",
+      "deleteConfirmDescription": "Esto elimina permanentemente todos los registros guardados en este dispositivo. No se puede deshacer.",
+      "confirmPrompt": "Escribe YES para confirmar",
+      "actionError": "Algo salió mal. Inténtalo de nuevo.",
+      "cancel": "Cancelar"
     }
   },
   "time": {

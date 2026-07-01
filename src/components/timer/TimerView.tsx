@@ -41,6 +41,10 @@ export function TimerView() {
   const timerState = useTimerState()
   const today = todayDateString()
   const todayEntries = useEntriesForDate(today)
+  const timerStartDate = timerState.startedAt
+    ? format(new Date(timerState.startedAt), "yyyy-MM-dd")
+    : today
+  const startDateEntries = useEntriesForDate(timerStartDate)
   const dailyTarget = settings.totalWorkMinutes
   const workedMinutes = getDailyWorkedMinutes(todayEntries)
   const dailyFlex = getDailyFlex(todayEntries, settings)
@@ -153,7 +157,7 @@ export function TimerView() {
     if (settings.autoFillFlexOnStop && duration > 0) {
       // Only count non-flex entries so we don't double-fill when flex was
       // already applied manually earlier in the day
-      const nonFlexWorked = todayEntries
+      const nonFlexWorked = startDateEntries
         .filter((e) => e.type !== "flex" && e.type !== "import")
         .reduce((sum, e) => sum + e.duration, 0)
       const totalWorkedAfter = nonFlexWorked + duration
@@ -184,7 +188,7 @@ export function TimerView() {
       pausedAt: null,
       accumulatedMs: 0,
     })
-  }, [timerState, settings, todayEntries, t])
+  }, [timerState, settings, startDateEntries, t])
 
   const handleTeleportStart = async () => {
     const [hours, minutes] = teleportTime.split(":").map(Number)
@@ -216,6 +220,48 @@ export function TimerView() {
     setNowMs(Date.now())
     setTeleportOpen(false)
   }
+
+  const handleFillDay = useCallback(async () => {
+    // Complete today to target for people who skip the timer. Fill only the
+    // remaining deficit against non-flex/non-import work so repeated presses
+    // never overfill (idempotent once the day is complete).
+    const nonFlexWorked = todayEntries
+      .filter((e) => e.type !== "flex" && e.type !== "import")
+      .reduce((sum, e) => sum + e.duration, 0)
+    const deficit = roundDuration(
+      Math.max(settings.totalWorkMinutes - nonFlexWorked, 0),
+      settings.roundToMinutes
+    )
+    if (deficit <= 0) {
+      showToast(t("timer.fillDayComplete"))
+      return
+    }
+    // Anchor the entry to the configured workday start so it reflects the set
+    // working time rather than the current clock.
+    const [hours, minutes] = settings.defaultStartTime.split(":").map(Number)
+    const start = new Date()
+    start.setHours(hours || 0, minutes || 0, 0, 0)
+    const end = new Date(start.getTime() + deficit * 60000)
+    if (
+      hasOverlap(
+        start.toISOString(),
+        end.toISOString(),
+        todayEntries.filter((entry) => entry.type !== "import")
+      )
+    ) {
+      showToast(t("timer.fillDayOverlap"))
+      return
+    }
+    hapticSuccess()
+    await addWorkEntry({
+      date: today,
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
+      duration: deficit,
+      type: "manual",
+      note: t("timer.fillDayNote"),
+    })
+  }, [todayEntries, settings, today, showToast, t])
 
   const totalWorkedWithTimer =
     workedMinutes +
@@ -295,6 +341,8 @@ export function TimerView() {
           setTeleportTime(settings.defaultStartTime)
           setTeleportOpen(true)
         }}
+        onFillDay={() => void handleFillDay()}
+        fillDayLabel={t("timer.fillDayLabel")}
       />
 
       <Card className="w-full max-w-sm bg-card/60 backdrop-blur-sm">

@@ -29,7 +29,11 @@
     "teleportOverlap": "Tuo aikaväli menee päällekkäin olemassa olevan merkinnän kanssa",
     "teleportFuture": "Aloitusajan on oltava menneisyydessä",
     "weekNumber": "Viikko {week}",
-    "autoFilledFlexNote": "Täytetty automaattisesti ajastimen pysäytyksessä"
+    "autoFilledFlexNote": "Täytetty automaattisesti ajastimen pysäytyksessä",
+    "fillDayLabel": "Täytä päivä työajalla",
+    "fillDayNote": "Täytetty koko työpäivä",
+    "fillDayComplete": "Tämä päivä on jo valmis",
+    "fillDayOverlap": "Työpäivä menee päällekkäin olemassa olevan merkinnän kanssa"
   },
   "forgot": {
     "title": "Unohditko pysäyttää ajastimen?",
@@ -75,12 +79,17 @@
     "legendFullFlex": "Koko päivä katettu liukuma-ajalla",
     "legendIncomplete": "Kesken jäänyt päivä — puuttuu tunteja",
     "legendFlexIncomplete": "Liukumaa käytetty, mutta päivä yhä kesken",
-    "legendAllIncomplete": "Työtä ja liukumaa kirjattu, mutta päivä yhä kesken"
+    "legendAllIncomplete": "Työtä ja liukumaa kirjattu, mutta päivä yhä kesken",
+    "deleteEntry": "Poista merkintä",
+    "deleteConfirmTitle": "Poistetaanko merkintä?",
+    "deleteConfirmBody": "Tämä poistaa merkinnän pysyvästi.",
+    "delete": "Poista"
   },
   "entryType": {
     "timer": "ajastin",
     "manual": "manuaalinen",
-    "flex": "liukuma"
+    "flex": "liukuma",
+    "import": "tuonti"
   },
   "report": {
     "total": "Yhteensä",
@@ -111,7 +120,8 @@
     "hoursByDayAverage": "Tunnit viikonpäivittäin (keskiarvo)",
     "allTime": "Koko ajalta",
     "flexEvolution": "Liukuman kehitys",
-    "currentYearToDate": "Kuluva vuosi tähän päivään"
+    "currentYearToDate": "Kuluva vuosi tähän päivään",
+    "noEntriesForMonth": "Ei merkintöjä tässä kuussa"
   },
   "bank": {
     "title": "Liukumapankki",
@@ -128,7 +138,10 @@
     "importFlexDescription": "Lisää aiemmassa järjestelmässä kertynyt liukuma-aika saldoosi.",
     "importedNote": "Tuotu edellisestä järjestelmästä",
     "importSave": "Tuo",
-    "importError": "Syötä kesto, joka on suurempi kuin nolla"
+    "importError": "Syötä kesto, joka on suurempi kuin nolla",
+    "deleteImport": "Poista tuotu saldo",
+    "deleteImportTitle": "Poistetaanko tuotu saldo?",
+    "deleteImportBody": "Tämä poistaa tuodun liukumasaldon pankistasi."
   },
   "settings": {
     "title": "Päiväasetukset",
@@ -155,6 +168,32 @@
       "sv": "Ruotsi",
       "pl": "Puola",
       "es": "Espanja"
+    },
+    "tabSetup": "Päiväasetukset",
+    "tabData": "Sovellustiedot",
+    "data": {
+      "description": "Vie, tuo tai poista kaikki tälle laitteelle tallennetut tiedot.",
+      "exportTitle": "Vie tiedot",
+      "exportDescription": "Lataa varmuuskopio kaikista laitteelle tallennetuista tiedoista .db-tiedostona.",
+      "exportButton": "Vie varmuuskopio",
+      "exportDone": "Viety tiedostoon {file}",
+      "exportError": "Vienti epäonnistui",
+      "importTitle": "Tuo tiedot",
+      "importDescription": "Palauta .db-varmuuskopiosta. Tämä korvaa kaikki nykyiset tiedot.",
+      "importButton": "Tuo varmuuskopio",
+      "importDone": "Tuotiin {count} merkintää",
+      "importInvalid": "Tiedosto ei ole kelvollinen 9toWhy-varmuuskopio",
+      "importConfirmTitle": "Tuodaanko ja korvataanko kaikki tiedot?",
+      "importConfirmDescription": "Tiedoston \"{file}\" tuonti korvaa pysyvästi kaikki tälle laitteelle tallennetut tiedot.",
+      "deleteTitle": "Poista kaikki tiedot",
+      "deleteDescription": "Poista pysyvästi kaikki merkinnät, asetukset ja ajastin tältä laitteelta.",
+      "deleteButton": "Poista kaikki",
+      "deleteDone": "Kaikki tiedot poistettu",
+      "deleteConfirmTitle": "Poistetaanko kaikki tiedot?",
+      "deleteConfirmDescription": "Tämä poistaa pysyvästi kaikki laitteelle tallennetut merkinnät. Toimintoa ei voi peruuttaa.",
+      "confirmPrompt": "Kirjoita YES vahvistaaksesi",
+      "actionError": "Jokin meni pieleen. Yritä uudelleen.",
+      "cancel": "Peruuta"
     }
   },
   "time": {

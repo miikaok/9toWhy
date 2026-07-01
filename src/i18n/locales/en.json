@@ -29,7 +29,11 @@
     "teleportOverlap": "That time range overlaps an existing entry",
     "teleportFuture": "Start time must be in the past",
     "weekNumber": "Week {week}",
-    "autoFilledFlexNote": "Auto-filled on timer stop"
+    "autoFilledFlexNote": "Auto-filled on timer stop",
+    "fillDayLabel": "Complete day with working time",
+    "fillDayNote": "Filled full working day",
+    "fillDayComplete": "Today is already complete",
+    "fillDayOverlap": "The working day overlaps an existing entry"
   },
   "forgot": {
     "title": "Forgot to stop the timer?",
@@ -75,12 +79,17 @@
     "legendFullFlex": "Full day covered by flex time",
     "legendIncomplete": "Incomplete day — missing hours",
     "legendFlexIncomplete": "Flex time used but day still incomplete",
-    "legendAllIncomplete": "Work and flex logged but day still incomplete"
+    "legendAllIncomplete": "Work and flex logged but day still incomplete",
+    "deleteEntry": "Delete entry",
+    "deleteConfirmTitle": "Delete entry?",
+    "deleteConfirmBody": "This will permanently remove this entry.",
+    "delete": "Delete"
   },
   "entryType": {
     "timer": "timer",
     "manual": "manual",
-    "flex": "flex"
+    "flex": "flex",
+    "import": "import"
   },
   "report": {
     "total": "Total",
@@ -111,7 +120,8 @@
     "hoursByDayAverage": "Hours by day avg.",
     "allTime": "All-time",
     "flexEvolution": "Flex evolution",
-    "currentYearToDate": "Current year to date"
+    "currentYearToDate": "Current year to date",
+    "noEntriesForMonth": "No entries this month"
   },
   "bank": {
     "title": "Flex Bank",
@@ -128,7 +138,10 @@
     "importFlexDescription": "Add flex time accumulated on a previous system to your balance.",
     "importedNote": "Imported from previous system",
     "importSave": "Import",
-    "importError": "Enter a duration greater than zero"
+    "importError": "Enter a duration greater than zero",
+    "deleteImport": "Delete imported balance",
+    "deleteImportTitle": "Delete imported balance?",
+    "deleteImportBody": "This will remove the imported flex balance from your bank."
   },
   "settings": {
     "title": "Daily setup",
@@ -155,6 +168,32 @@
       "sv": "Swedish",
       "pl": "Polish",
       "es": "Spanish"
+    },
+    "tabSetup": "Daily setup",
+    "tabData": "App data",
+    "data": {
+      "description": "Export, import or delete all data stored on this device.",
+      "exportTitle": "Export data",
+      "exportDescription": "Download a backup of everything stored on this device as a .db file.",
+      "exportButton": "Export backup",
+      "exportDone": "Exported to {file}",
+      "exportError": "Export failed",
+      "importTitle": "Import data",
+      "importDescription": "Restore from a .db backup file. This replaces all current data.",
+      "importButton": "Import backup",
+      "importDone": "Imported {count} entries",
+      "importInvalid": "That file is not a valid 9toWhy backup",
+      "importConfirmTitle": "Import and replace all data?",
+      "importConfirmDescription": "Importing \"{file}\" will permanently replace all data currently stored on this device.",
+      "deleteTitle": "Delete all data",
+      "deleteDescription": "Permanently remove every entry, setting and timer from this device.",
+      "deleteButton": "Delete everything",
+      "deleteDone": "All data deleted",
+      "deleteConfirmTitle": "Delete all data?",
+      "deleteConfirmDescription": "This permanently deletes every entry stored on this device. This cannot be undone.",
+      "confirmPrompt": "Type YES to confirm",
+      "actionError": "Something went wrong. Please try again.",
+      "cancel": "Cancel"
     }
   },
   "time": {

@@ -1,4 +1,4 @@
-import { Play, Pause, Square, History } from "lucide-react"
+import { Play, Pause, Square, History, CalendarCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 
@@ -10,6 +10,8 @@ interface TimerControlsProps {
   onResume: () => void
   onStop: () => void
   onTeleport?: () => void
+  onFillDay?: () => void
+  fillDayLabel?: string
 }
 
 export function TimerControls({
@@ -20,6 +22,8 @@ export function TimerControls({
   onResume,
   onStop,
   onTeleport,
+  onFillDay,
+  fillDayLabel,
 }: TimerControlsProps) {
   if (!isRunning && !isPaused) {
     return (
@@ -28,6 +32,15 @@ export function TimerControls({
         animate={{ scale: 1, opacity: 1 }}
         className="flex items-center justify-center gap-6"
       >
+        <Button
+          size="lg"
+          variant="secondary"
+          className="size-14 rounded-full"
+          aria-label={fillDayLabel}
+          onClick={onFillDay}
+        >
+          <CalendarCheck className="size-5" />
+        </Button>
         <Button size="lg" className="size-16 rounded-full" onClick={onStart}>
           <Play className="ml-0.5 size-5" />
         </Button>

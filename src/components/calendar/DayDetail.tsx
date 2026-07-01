@@ -3,6 +3,14 @@ import { Trash2, Clock, Pencil } from "lucide-react"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
 import { deleteWorkEntry } from "@/db/hooks"
 import type { WorkEntry } from "@/db"
 import { hapticTap } from "@/lib/haptics"
@@ -43,6 +51,7 @@ export function DayDetail({ entries, onSaveEdit }: DayDetailProps) {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editStart, setEditStart] = useState("")
   const [editEnd, setEditEnd] = useState("")
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null)
 
   if (entries.length === 0) {
     return (
@@ -167,9 +176,10 @@ export function DayDetail({ entries, onSaveEdit }: DayDetailProps) {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label={t("calendar.deleteEntry")}
                   className="size-8 shrink-0 text-muted-foreground/60 hover:text-destructive"
                   onPointerDown={hapticTap}
-                  onClick={() => void deleteWorkEntry(entry.id)}
+                  onClick={() => setPendingDeleteId(entry.id)}
                 >
                   <Trash2 className="size-3.5" />
                 </Button>
@@ -178,6 +188,39 @@ export function DayDetail({ entries, onSaveEdit }: DayDetailProps) {
           </div>
         )
       })}
+      <Dialog
+        open={pendingDeleteId !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteId(null)
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("calendar.deleteConfirmTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("calendar.deleteConfirmBody")}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setPendingDeleteId(null)}
+            >
+              {t("calendar.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onPointerDown={hapticTap}
+              onClick={() => {
+                void deleteWorkEntry(pendingDeleteId!)
+                setPendingDeleteId(null)
+              }}
+            >
+              {t("calendar.delete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

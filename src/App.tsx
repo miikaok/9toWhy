@@ -185,7 +185,7 @@ export function App() {
           }}
         />
       </div>
-      {showForgotDialog && (
+      {showForgotDialog && timerState.pausedAt && (
         <ForgotToStopDialog
           timerState={timerState}
           settings={settings}

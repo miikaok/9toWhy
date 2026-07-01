@@ -29,7 +29,11 @@
     "teleportOverlap": "Det tidsintervallet överlappar en befintlig post",
     "teleportFuture": "Starttiden måste vara i det förflutna",
     "weekNumber": "Vecka {week}",
-    "autoFilledFlexNote": "Autofylld vid timerstopp"
+    "autoFilledFlexNote": "Autofylld vid timerstopp",
+    "fillDayLabel": "Fyll dagen med arbetstid",
+    "fillDayNote": "Fyllde hel arbetsdag",
+    "fillDayComplete": "Dagen är redan komplett",
+    "fillDayOverlap": "Arbetsdagen överlappar en befintlig post"
   },
   "forgot": {
     "title": "Glömde du stoppa timern?",
@@ -75,12 +79,17 @@
     "legendFullFlex": "Hel dag täckt med flextid",
     "legendIncomplete": "Ofullständig dag — timmar saknas",
     "legendFlexIncomplete": "Flextid använd men dagen fortfarande ofullständig",
-    "legendAllIncomplete": "Arbete och flex loggat men dagen fortfarande ofullständig"
+    "legendAllIncomplete": "Arbete och flex loggat men dagen fortfarande ofullständig",
+    "deleteEntry": "Ta bort post",
+    "deleteConfirmTitle": "Ta bort post?",
+    "deleteConfirmBody": "Detta tar bort posten permanent.",
+    "delete": "Ta bort"
   },
   "entryType": {
     "timer": "timer",
     "manual": "manuell",
-    "flex": "flex"
+    "flex": "flex",
+    "import": "import"
   },
   "report": {
     "total": "Totalt",
@@ -111,7 +120,8 @@
     "hoursByDayAverage": "Timmar per veckodag (snitt)",
     "allTime": "Hela tiden",
     "flexEvolution": "Flexutveckling",
-    "currentYearToDate": "Innevarande ar till idag"
+    "currentYearToDate": "Innevarande ar till idag",
+    "noEntriesForMonth": "Inga poster denna manad"
   },
   "bank": {
     "title": "Flexbank",
@@ -128,7 +138,10 @@
     "importFlexDescription": "Lägg till flextid från ett tidigare system till ditt saldo.",
     "importedNote": "Importerad från tidigare system",
     "importSave": "Importera",
-    "importError": "Ange en varaktighet som är större än noll"
+    "importError": "Ange en varaktighet som är större än noll",
+    "deleteImport": "Ta bort importerat saldo",
+    "deleteImportTitle": "Ta bort importerat saldo?",
+    "deleteImportBody": "Detta tar bort det importerade flexsaldot från din bank."
   },
   "settings": {
     "title": "Dagliga inställningar",
@@ -155,6 +168,32 @@
       "sv": "Svenska",
       "pl": "Polska",
       "es": "Spanska"
+    },
+    "tabSetup": "Daglig inställning",
+    "tabData": "Appdata",
+    "data": {
+      "description": "Exportera, importera eller radera all data som lagras på den här enheten.",
+      "exportTitle": "Exportera data",
+      "exportDescription": "Ladda ner en säkerhetskopia av allt som lagras på enheten som en .db-fil.",
+      "exportButton": "Exportera säkerhetskopia",
+      "exportDone": "Exporterad till {file}",
+      "exportError": "Exporten misslyckades",
+      "importTitle": "Importera data",
+      "importDescription": "Återställ från en .db-säkerhetskopia. Detta ersätter all nuvarande data.",
+      "importButton": "Importera säkerhetskopia",
+      "importDone": "Importerade {count} poster",
+      "importInvalid": "Filen är inte en giltig 9toWhy-säkerhetskopia",
+      "importConfirmTitle": "Importera och ersätta all data?",
+      "importConfirmDescription": "Att importera \"{file}\" ersätter permanent all data som för närvarande lagras på den här enheten.",
+      "deleteTitle": "Radera all data",
+      "deleteDescription": "Ta permanent bort alla poster, inställningar och timern från den här enheten.",
+      "deleteButton": "Radera allt",
+      "deleteDone": "All data raderad",
+      "deleteConfirmTitle": "Radera all data?",
+      "deleteConfirmDescription": "Detta raderar permanent alla poster som lagras på den här enheten. Detta kan inte ångras.",
+      "confirmPrompt": "Skriv YES för att bekräfta",
+      "actionError": "Något gick fel. Försök igen.",
+      "cancel": "Avbryt"
     }
   },
   "time": {

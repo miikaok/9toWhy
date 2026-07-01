@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
 import { motion } from "framer-motion"
-import { Plus, TrendingUp, TrendingDown, PackageOpen } from "lucide-react"
+import { Plus, TrendingUp, TrendingDown, PackageOpen, Trash2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { useAllEntries, useSettings, addWorkEntry } from "@/db/hooks"
+import { useAllEntries, useSettings, addWorkEntry, deleteWorkEntry } from "@/db/hooks"
 import {
   getDailyFlex,
   getEffectiveDailyTarget,
@@ -33,6 +33,7 @@ interface BankTransaction {
   kind: "earned" | "used" | "imported"
   timestamp: string
   minutes: number
+  entryId?: number
 }
 
 export function BankView() {
@@ -44,6 +45,7 @@ export function BankView() {
   const [importHours, setImportHours] = useState("")
   const [importMinutes, setImportMinutes] = useState("")
   const [importError, setImportError] = useState(false)
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null)
 
   const transactions = useMemo<BankTransaction[]>(() => {
     const byDate = groupEntriesByDate(entries)
@@ -74,6 +76,7 @@ export function BankView() {
             kind: "imported",
             timestamp: entry.startTime,
             minutes: entry.duration,
+            entryId: entry.id,
           })
         }
       }
@@ -104,8 +107,8 @@ export function BankView() {
   }
 
   const handleImportSave = async () => {
-    const h = parseInt(importHours) || 0
-    const m = parseInt(importMinutes) || 0
+    const h = Math.max(parseInt(importHours) || 0, 0)
+    const m = Math.max(parseInt(importMinutes) || 0, 0)
     const total = h * 60 + m
     if (total <= 0) {
       setImportError(true)
@@ -231,6 +234,18 @@ export function BankView() {
                             : "text-destructive"
                         )}
                       />
+                      {tx.kind === "imported" && tx.entryId !== undefined && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={t("bank.deleteImport")}
+                          className="size-8 shrink-0 text-muted-foreground/60 hover:text-destructive"
+                          onPointerDown={hapticTap}
+                          onClick={() => setPendingDeleteId(tx.entryId!)}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -288,7 +303,6 @@ export function BankView() {
                 placeholder={t("forgot.minutesPlaceholder")}
                 value={importMinutes}
                 min={0}
-                max={59}
                 className="w-20"
                 onChange={(e) => {
                   setImportMinutes(e.target.value)
@@ -322,6 +336,42 @@ export function BankView() {
               onClick={() => void handleImportSave()}
             >
               {t("bank.importSave")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete imported flex confirm dialog */}
+      <Dialog
+        open={pendingDeleteId !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteId(null)
+        }}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{t("bank.deleteImportTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("bank.deleteImportBody")}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setPendingDeleteId(null)}
+            >
+              {t("calendar.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onPointerDown={hapticTap}
+              onClick={() => {
+                void deleteWorkEntry(pendingDeleteId!)
+                hapticSuccess()
+                setPendingDeleteId(null)
+              }}
+            >
+              {t("calendar.delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

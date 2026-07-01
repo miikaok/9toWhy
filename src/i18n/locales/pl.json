@@ -29,7 +29,11 @@
     "teleportOverlap": "Ten przedzial czasu naklada sie na istniejacy wpis",
     "teleportFuture": "Czas rozpoczecia musi byc w przeszlosci",
     "weekNumber": "Tydzien {week}",
-    "autoFilledFlexNote": "Automatycznie uzupelniono przy zatrzymaniu timera"
+    "autoFilledFlexNote": "Automatycznie uzupelniono przy zatrzymaniu timera",
+    "fillDayLabel": "Uzupelnij dzien czasem pracy",
+    "fillDayNote": "Uzupelniono pelny dzien pracy",
+    "fillDayComplete": "Dzisiejszy dzien jest juz kompletny",
+    "fillDayOverlap": "Dzien pracy naklada sie na istniejacy wpis"
   },
   "forgot": {
     "title": "Zapomniales zatrzymac timer?",
@@ -75,12 +79,17 @@
     "legendFullFlex": "Pelny dzien pokryty czasem flex",
     "legendIncomplete": "Niepelny dzien — brakuje godzin",
     "legendFlexIncomplete": "Uzyto flexu, ale dzien nadal niepelny",
-    "legendAllIncomplete": "Praca i flex zapisane, ale dzien nadal niepelny"
+    "legendAllIncomplete": "Praca i flex zapisane, ale dzien nadal niepelny",
+    "deleteEntry": "Usun wpis",
+    "deleteConfirmTitle": "Usunac wpis?",
+    "deleteConfirmBody": "Ta operacja trwale usunie ten wpis.",
+    "delete": "Usun"
   },
   "entryType": {
     "timer": "timer",
     "manual": "reczny",
-    "flex": "flex"
+    "flex": "flex",
+    "import": "import"
   },
   "report": {
     "total": "Suma",
@@ -111,7 +120,8 @@
     "hoursByDayAverage": "Srednia godzin wg dnia tygodnia",
     "allTime": "Caly okres",
     "flexEvolution": "Rozwoj flexu",
-    "currentYearToDate": "Biezacy rok do dzis"
+    "currentYearToDate": "Biezacy rok do dzis",
+    "noEntriesForMonth": "Brak wpisow w tym miesiacu"
   },
   "bank": {
     "title": "Bank flex",
@@ -128,7 +138,10 @@
     "importFlexDescription": "Dodaj czas flex zgromadzony w poprzednim systemie do swojego salda.",
     "importedNote": "Zaimportowano z poprzedniego systemu",
     "importSave": "Importuj",
-    "importError": "Podaj czas dluzszy niz zero"
+    "importError": "Podaj czas dluzszy niz zero",
+    "deleteImport": "Usun importowane saldo",
+    "deleteImportTitle": "Usunac importowane saldo?",
+    "deleteImportBody": "Ta operacja usunie importowane saldo flex z twojego banku."
   },
   "settings": {
     "title": "Ustawienia dzienne",
@@ -155,6 +168,32 @@
       "sv": "Szwedzki",
       "pl": "Polski",
       "es": "Hiszpanski"
+    },
+    "tabSetup": "Ustawienia dzienne",
+    "tabData": "Dane aplikacji",
+    "data": {
+      "description": "Eksportuj, importuj lub usuń wszystkie dane zapisane na tym urządzeniu.",
+      "exportTitle": "Eksportuj dane",
+      "exportDescription": "Pobierz kopię zapasową wszystkich danych z tego urządzenia jako plik .db.",
+      "exportButton": "Eksportuj kopię",
+      "exportDone": "Wyeksportowano do {file}",
+      "exportError": "Eksport nie powiódł się",
+      "importTitle": "Importuj dane",
+      "importDescription": "Przywróć z pliku kopii .db. Zastąpi to wszystkie bieżące dane.",
+      "importButton": "Importuj kopię",
+      "importDone": "Zaimportowano {count} wpisów",
+      "importInvalid": "Ten plik nie jest prawidłową kopią 9toWhy",
+      "importConfirmTitle": "Zaimportować i zastąpić wszystkie dane?",
+      "importConfirmDescription": "Import pliku \"{file}\" trwale zastąpi wszystkie dane zapisane na tym urządzeniu.",
+      "deleteTitle": "Usuń wszystkie dane",
+      "deleteDescription": "Trwale usuń wszystkie wpisy, ustawienia i licznik z tego urządzenia.",
+      "deleteButton": "Usuń wszystko",
+      "deleteDone": "Wszystkie dane usunięte",
+      "deleteConfirmTitle": "Usunąć wszystkie dane?",
+      "deleteConfirmDescription": "Spowoduje to trwałe usunięcie wszystkich wpisów zapisanych na tym urządzeniu. Tej operacji nie można cofnąć.",
+      "confirmPrompt": "Wpisz YES, aby potwierdzić",
+      "actionError": "Coś poszło nie tak. Spróbuj ponownie.",
+      "cancel": "Anuluj"
     }
   },
   "time": {

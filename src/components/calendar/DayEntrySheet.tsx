@@ -92,7 +92,10 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
       Math.max(rawMinutes, 0),
       settings.roundToMinutes
     )
-    if (rounded <= 0) return
+    if (rounded <= 0) {
+      showToast(t("calendar.invalidRangeToast"))
+      return
+    }
     if (hasOverlap(start, end, entries)) {
       showOverlapWarning()
       return
@@ -123,7 +126,10 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
       Math.max(rawMinutes, 0),
       settings.roundToMinutes
     )
-    if (requestedDuration <= 0) return
+    if (requestedDuration <= 0) {
+      showToast(t("calendar.invalidRangeToast"))
+      return
+    }
     hapticSuccess()
     await addWorkEntry({
       date,

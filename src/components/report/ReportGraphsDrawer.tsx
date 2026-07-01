@@ -66,15 +66,15 @@ export function ReportGraphsDrawer({
   const todayDate = useMemo(() => new Date(), [])
   const [interactionsEnabled, setInteractionsEnabled] = useState(!open)
 
+  const [prevOpen, setPrevOpen] = useState(open)
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+    setInteractionsEnabled(!open)
+  }
+
   useEffect(() => {
-    if (!open) {
-      setInteractionsEnabled(true)
-      return
-    }
-    setInteractionsEnabled(false)
-    const timer = setTimeout(() => {
-      setInteractionsEnabled(true)
-    }, 260)
+    if (!open) return
+    const timer = setTimeout(() => setInteractionsEnabled(true), 260)
     return () => clearTimeout(timer)
   }, [open])
 

@@ -1,4 +1,5 @@
 import type { DaySummary } from "@/lib/flex"
+import { CalendarX2 } from "lucide-react"
 import type { Settings } from "@/db"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useI18n } from "@/hooks/use-i18n"
@@ -25,8 +26,21 @@ function TypeDot({ type }: { type: string }) {
 }
 
 export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
-  const { locale } = useI18n()
+  const { t, locale } = useI18n()
   const target = settings.totalWorkMinutes
+
+  if (days.length === 0) {
+    return (
+      <ScrollArea className="h-full rounded-xl border bg-card/60 backdrop-blur-sm">
+        <div className="flex flex-col items-center gap-2 py-12 text-center">
+          <CalendarX2 className="size-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">
+            {t("report.noEntriesForMonth")}
+          </p>
+        </div>
+      </ScrollArea>
+    )
+  }
 
   return (
     <ScrollArea className="h-full rounded-xl border bg-card/60 backdrop-blur-sm">

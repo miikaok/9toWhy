@@ -21,7 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useEntriesForMonth, useSettings } from "@/db/hooks"
-import { getDaySummary, getEffectiveDailyTarget } from "@/lib/flex"
+import { getDaySummary, getRemainingDayMinutes } from "@/lib/flex"
 import { cn } from "@/lib/utils"
 import { DayEntrySheet } from "./DayEntrySheet"
 import { hapticTap } from "@/lib/haptics"
@@ -70,7 +70,6 @@ export function CalendarView() {
   const month = currentMonth.getMonth() + 1
   const entries = useEntriesForMonth(year, month)
   const settings = useSettings()
-  const dailyTarget = getEffectiveDailyTarget(settings)
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
@@ -89,7 +88,7 @@ export function CalendarView() {
       (e) => e.type !== "flex" && e.type !== "import"
     )
     const hasFlex = summary.hasFlexEntry
-    const isComplete = summary.workedMinutes >= dailyTarget
+    const isComplete = getRemainingDayMinutes(summary.entries, settings) === 0
 
     if (hasWork && !hasFlex && isComplete) return [COLOR_WORK]
     if (hasWork && hasFlex && isComplete) return [COLOR_WORK, COLOR_FLEX]

@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx"
 import { format } from "date-fns"
-import type { DaySummary } from "@/lib/flex"
+import { getDailyFlexUsed, type DaySummary } from "@/lib/flex"
 import type { Settings } from "@/db"
 import type { AppLocale } from "@/i18n/types"
 import { getDateFnsLocale } from "@/lib/date-locale"
@@ -117,32 +117,32 @@ export function exportMonthReport(
   for (const day of days) {
     const { entries } = day
 
-    const workEntries = entries.filter((e) => e.type !== "flex")
-    const flexEntries = entries.filter((e) => e.type === "flex")
+    const realEntries = entries.filter((e) => e.type !== "import")
+    const workEntries = realEntries.filter((e) => e.type !== "flex")
 
     const workMinutes = workEntries.reduce((sum, e) => sum + e.duration, 0)
-    const flexMinutes = flexEntries.reduce((sum, e) => sum + e.duration, 0)
+    const flexMinutes = getDailyFlexUsed(realEntries, settings)
 
     // Full span across ALL logged entries (work + flex)
-    const allStartMs = entries.map((e) => new Date(e.startTime).getTime())
-    const allEndMs = entries.map((e) => new Date(e.endTime).getTime())
+    const allStartMs = realEntries.map((e) => new Date(e.startTime).getTime())
+    const allEndMs = realEntries.map((e) => new Date(e.endTime).getTime())
     const spanMinutes =
-      entries.length > 0
+      realEntries.length > 0
         ? (Math.max(...allEndMs) - Math.min(...allStartMs)) / 60000
         : 0
-    // Breaks = unlogged time within the work span
+    // Clock span not charged as work or flex, including waived lunch on days off.
     const breakMinutes = Math.max(0, spanMinutes - workMinutes - flexMinutes)
 
     // Time-of-day fractions for Start / End
     const startFrac =
-      entries.length > 0
+      realEntries.length > 0
         ? (() => {
             const d = new Date(Math.min(...allStartMs))
             return (d.getHours() * 60 + d.getMinutes()) / 1440
           })()
         : 0
     const endFrac =
-      entries.length > 0
+      realEntries.length > 0
         ? (() => {
             const d = new Date(Math.max(...allEndMs))
             return (d.getHours() * 60 + d.getMinutes()) / 1440
@@ -161,9 +161,13 @@ export function exportMonthReport(
     set(
       C.start,
       rowIdx,
-      entries.length > 0 ? num(startFrac, FMT_TIME) : empty()
+      realEntries.length > 0 ? num(startFrac, FMT_TIME) : empty()
     )
-    set(C.end, rowIdx, entries.length > 0 ? num(endFrac, FMT_TIME) : empty())
+    set(
+      C.end,
+      rowIdx,
+      realEntries.length > 0 ? num(endFrac, FMT_TIME) : empty()
+    )
     set(C.breaks, rowIdx, num(toDay(breakMinutes), FMT_DUR))
     set(C.worked, rowIdx, num(toDay(workMinutes), FMT_DUR))
     set(C.flex, rowIdx, num(toDay(flexMinutes), FMT_DUR))

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { addWorkEntry, saveTimerState } from "@/db/hooks"
 import type { TimerState, Settings, WorkEntry } from "@/db"
-import { getEffectiveDailyTarget } from "@/lib/flex"
+import { getDailyWorkedMinutes, getEffectiveDailyTarget } from "@/lib/flex"
 import { formatDuration, roundDuration, msToMinutes } from "@/lib/time"
 import { hapticError, hapticSuccess, hapticTap } from "@/lib/haptics"
 import { useI18n } from "@/hooks/use-i18n"
@@ -75,11 +75,9 @@ export function ForgotToStopDialog({
       // Bug 3 fix: honour autoFillFlexOnStop when recovering via this dialog.
       // handleStop in TimerView would have done this, but it is bypassed here.
       if (settings.autoFillFlexOnStop) {
-        const nonFlexWorked = startDateEntries
-          .filter((e) => e.type !== "flex" && e.type !== "import")
-          .reduce((sum, e) => sum + e.duration, 0)
-        const totalWorkedAfter = nonFlexWorked + rounded
-        const deficit = settings.totalWorkMinutes - totalWorkedAfter
+        const totalCoveredAfter =
+          getDailyWorkedMinutes(startDateEntries) + rounded
+        const deficit = settings.totalWorkMinutes - totalCoveredAfter
         const flexDuration = roundDuration(
           Math.max(deficit, 0),
           settings.roundToMinutes

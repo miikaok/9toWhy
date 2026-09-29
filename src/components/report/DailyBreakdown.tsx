@@ -1,4 +1,8 @@
-import type { DaySummary } from "@/lib/flex"
+import {
+  getDailyFlexUsed,
+  getRemainingDayMinutes,
+  type DaySummary,
+} from "@/lib/flex"
 import { CalendarX2 } from "lucide-react"
 import type { Settings } from "@/db"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -27,7 +31,6 @@ function TypeDot({ type }: { type: string }) {
 
 export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
   const { t, locale } = useI18n()
-  const target = settings.totalWorkMinutes
 
   if (days.length === 0) {
     return (
@@ -46,9 +49,6 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
     <ScrollArea className="h-full rounded-xl border bg-card/60 backdrop-blur-sm">
       <div className="flex flex-col divide-y divide-border/40">
         {days.map((day) => {
-          const nonFlexEntries = day.entries.filter(
-            (e) => e.type !== "flex" && e.type !== "import"
-          )
           const flexEntries = day.entries.filter((e) => e.type === "flex")
 
           // Time window: earliest start → latest end across all real entries
@@ -65,12 +65,10 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
             ? new Date(Math.max(...allTimes.map((t) => t.end)))
             : null
 
-          // Worked minutes excluding flex/import (actual work)
-          const workedOnly = nonFlexEntries.reduce((s, e) => s + e.duration, 0)
           const flexUsed = flexEntries.reduce((s, e) => s + e.duration, 0)
 
           // Status colour
-          const isComplete = workedOnly + flexUsed >= target
+          const isComplete = getRemainingDayMinutes(day.entries, settings) === 0
           const hasAnyFlex = flexUsed > 0
           const statusColor = isComplete
             ? hasAnyFlex
@@ -81,7 +79,8 @@ export function DailyBreakdown({ days, settings }: DailyBreakdownProps) {
           // Flex delta: only credit overtime (positive earned flex), always debit used flex.
           // day.dailyFlex can be negative (underworked) — clamping to 0 prevents
           // deficit days from compounding on top of the used amount.
-          const flexDelta = Math.max(day.dailyFlex, 0) - flexUsed
+          const flexDelta =
+            Math.max(day.dailyFlex, 0) - getDailyFlexUsed(day.entries, settings)
           const deltaLabel = formatDurationShort(flexDelta, locale)
           const deltaPositive = flexDelta >= 0
 

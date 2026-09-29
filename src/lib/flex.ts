@@ -1,11 +1,56 @@
 import { format } from "date-fns"
 import type { WorkEntry, Settings } from "@/db"
-import { roundDuration } from "@/lib/time"
+import { roundDuration } from "./time.ts"
 
-// Bug A fix: breakMinutes is for Excel export display only.
-// The timer runs continuously — the target is the full totalWorkMinutes.
+// Logged work includes the break in its clock span, so earning flex still
+// starts only after the full scheduled day.
 export function getEffectiveDailyTarget(settings: Settings): number {
   return settings.totalWorkMinutes
+}
+
+// A day with no work needs flex for the scheduled work, not its unpaid break.
+export function getDailyOffCost(settings: Settings): number {
+  return Math.max(settings.totalWorkMinutes - settings.breakMinutes, 0)
+}
+
+export function getFullDaysOff(
+  balanceMinutes: number,
+  settings: Settings
+): number {
+  const dailyCost = getDailyOffCost(settings)
+  return dailyCost > 0 ? Math.max(Math.floor(balanceMinutes / dailyCost), 0) : 0
+}
+
+function hasWork(entries: WorkEntry[]): boolean {
+  return entries.some((e) => e.type === "timer" || e.type === "manual")
+}
+
+export function getDailyFlexUsed(
+  entries: WorkEntry[],
+  settings: Settings
+): number {
+  const flexMinutes = entries
+    .filter((e) => e.type === "flex")
+    .reduce((sum, e) => sum + e.duration, 0)
+  if (hasWork(entries)) return flexMinutes
+
+  // Full-day entries may cover the whole clock span. Waive only the part
+  // above the day-off cost, up to one break per day, including split entries.
+  const breakCovered = Math.min(
+    Math.max(flexMinutes - getDailyOffCost(settings), 0),
+    Math.max(settings.breakMinutes, 0)
+  )
+  return flexMinutes - breakCovered
+}
+
+export function getRemainingDayMinutes(
+  entries: WorkEntry[],
+  settings: Settings
+): number {
+  const target = hasWork(entries)
+    ? getEffectiveDailyTarget(settings)
+    : getDailyOffCost(settings)
+  return Math.max(target - getDailyWorkedMinutes(entries), 0)
 }
 
 // "import" entries are flex-balance adjustments, not actual work time.
@@ -18,7 +63,9 @@ export function getDailyWorkedMinutes(entries: WorkEntry[]): number {
 // Returns how many minutes over/under target the non-flex work was for a day.
 // Negative means underworked; 0 if no work entries exist.
 export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
-  const nonFlex = entries.filter((e) => e.type !== "flex")
+  const nonFlex = entries.filter(
+    (e) => e.type === "timer" || e.type === "manual"
+  )
   if (nonFlex.length === 0) return 0
   const workedMinutes = getDailyWorkedMinutes(nonFlex)
   return roundDuration(
@@ -28,7 +75,8 @@ export function getDailyFlex(entries: WorkEntry[], settings: Settings): number {
 }
 
 // Bug B fix: net balance for a single day, matching BankView's formula.
-// Only credit overtime (positive earned flex); always debit explicit flex entries.
+// Only credit overtime (positive earned flex); debit flex with the full-day
+// break allowance when no work was logged.
 // Deficit days (underworked without flex coverage) do not affect the balance,
 // consistent with how BankView displays transactions.
 export function netDayFlexBalance(
@@ -36,9 +84,7 @@ export function netDayFlexBalance(
   settings: Settings
 ): number {
   const earned = getDailyFlex(dayEntries, settings)
-  const used = dayEntries
-    .filter((e) => e.type === "flex")
-    .reduce((sum, e) => sum + e.duration, 0)
+  const used = getDailyFlexUsed(dayEntries, settings)
   const imported = dayEntries
     .filter((e) => e.type === "import")
     .reduce((sum, e) => sum + e.duration, 0)

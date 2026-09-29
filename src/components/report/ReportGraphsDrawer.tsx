@@ -98,13 +98,14 @@ export function ReportGraphsDrawer({
     return monthStarts.map((monthDate) => {
       const monthStart = format(startOfMonth(monthDate), "yyyy-MM-dd")
       const monthEnd = format(endOfMonth(monthDate), "yyyy-MM-dd")
-      const workedMinutes = rollingEntries
-        .filter((entry) => entry.date >= monthStart && entry.date <= monthEnd)
-        .reduce((sum, entry) => sum + entry.duration, 0)
+      const monthEntries = rollingEntries.filter(
+        (entry) => entry.date >= monthStart && entry.date <= monthEnd
+      )
+      const trackedMinutes = getDailyWorkedMinutes(monthEntries)
 
       return {
         month: formatLocaleDate(monthDate, "LLL", locale),
-        hours: Number((workedMinutes / 60).toFixed(1)),
+        hours: Number((trackedMinutes / 60).toFixed(1)),
       }
     })
   }, [locale, rollingEntries, todayDate])

@@ -26,6 +26,7 @@ import {
 import {
   getDailyWorkedMinutes,
   getDailyFlex,
+  getRemainingDayMinutes,
   todayDateString,
 } from "@/lib/flex"
 import { roundDuration, msToMinutes, minutesToMs, hasOverlap } from "@/lib/time"
@@ -155,13 +156,9 @@ export function TimerView() {
     }
 
     if (settings.autoFillFlexOnStop && duration > 0) {
-      // Only count non-flex entries so we don't double-fill when flex was
-      // already applied manually earlier in the day
-      const nonFlexWorked = startDateEntries
-        .filter((e) => e.type !== "flex" && e.type !== "import")
-        .reduce((sum, e) => sum + e.duration, 0)
-      const totalWorkedAfter = nonFlexWorked + duration
-      const deficit = settings.totalWorkMinutes - totalWorkedAfter
+      const totalCoveredAfter =
+        getDailyWorkedMinutes(startDateEntries) + duration
+      const deficit = settings.totalWorkMinutes - totalCoveredAfter
       // Round the deficit with the same step used for the timer entry itself.
       // Clamp to zero to avoid over-filling on days already at/over target.
       const flexDuration = roundDuration(
@@ -223,13 +220,17 @@ export function TimerView() {
 
   const handleFillDay = useCallback(async () => {
     // Complete today to target for people who skip the timer. Fill only the
-    // remaining deficit against non-flex/non-import work so repeated presses
+    // remaining deficit against all logged work and flex so repeated presses
     // never overfill (idempotent once the day is complete).
-    const nonFlexWorked = todayEntries
-      .filter((e) => e.type !== "flex" && e.type !== "import")
-      .reduce((sum, e) => sum + e.duration, 0)
+    if (getRemainingDayMinutes(todayEntries, settings) === 0) {
+      showToast(t("timer.fillDayComplete"))
+      return
+    }
     const deficit = roundDuration(
-      Math.max(settings.totalWorkMinutes - nonFlexWorked, 0),
+      Math.max(
+        settings.totalWorkMinutes - getDailyWorkedMinutes(todayEntries),
+        0
+      ),
       settings.roundToMinutes
     )
     if (deficit <= 0) {

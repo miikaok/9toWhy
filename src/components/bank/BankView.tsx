@@ -1,9 +1,14 @@
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { Plus, TrendingUp, TrendingDown, PackageOpen, Trash2 } from "lucide-react"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import {
+  Plus,
+  TrendingUp,
+  TrendingDown,
+  PackageOpen,
+  Trash2,
+} from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -14,10 +19,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { useAllEntries, useSettings, addWorkEntry, deleteWorkEntry } from "@/db/hooks"
+import {
+  useAllEntries,
+  useSettings,
+  addWorkEntry,
+  deleteWorkEntry,
+} from "@/db/hooks"
 import {
   getDailyFlex,
-  getEffectiveDailyTarget,
+  getDailyFlexUsed,
+  getFullDaysOff,
   groupEntriesByDate,
   todayDateString,
 } from "@/lib/flex"
@@ -62,15 +73,19 @@ export function BankView() {
         })
       }
 
+      const used = getDailyFlexUsed(dayEntries, settings)
+      const flexEntries = dayEntries.filter((entry) => entry.type === "flex")
+      if (used > 0) {
+        list.push({
+          id: `used-${date}`,
+          kind: "used",
+          timestamp: flexEntries[flexEntries.length - 1].startTime,
+          minutes: -used,
+        })
+      }
+
       for (const entry of dayEntries) {
-        if (entry.type === "flex") {
-          list.push({
-            id: `used-${entry.id}`,
-            kind: "used",
-            timestamp: entry.startTime,
-            minutes: -Math.abs(entry.duration),
-          })
-        } else if (entry.type === "import") {
+        if (entry.type === "import") {
           list.push({
             id: `import-${entry.id}`,
             kind: "imported",
@@ -92,11 +107,19 @@ export function BankView() {
     () => transactions.reduce((sum, tx) => sum + tx.minutes, 0),
     [transactions]
   )
-  const dailyOffCostMinutes = getEffectiveDailyTarget(settings)
-  const fullDaysOff =
-    dailyOffCostMinutes > 0
-      ? Math.max(Math.floor(totalAvailableFlex / dailyOffCostMinutes), 0)
-      : 0
+  const transactionScrollRef = useRef<HTMLDivElement>(null)
+  const getTransactionKey = useCallback(
+    (index: number) => transactions[index].id,
+    [transactions]
+  )
+  const transactionVirtualizer = useVirtualizer({
+    count: transactions.length,
+    getScrollElement: () => transactionScrollRef.current,
+    estimateSize: () => 60,
+    getItemKey: getTransactionKey,
+    overscan: 6,
+  })
+  const fullDaysOff = getFullDaysOff(totalAvailableFlex, settings)
 
   const isPositive = totalAvailableFlex >= 0
 
@@ -206,51 +229,69 @@ export function BankView() {
               {t("bank.noTransactions")}
             </p>
           ) : (
-            <ScrollArea className="h-full pr-2">
-              <div className="flex flex-col">
-                {transactions.map((tx, index) => (
-                  <div key={tx.id}>
-                    {index > 0 && <Separator className="my-2" />}
-                    <div className="flex items-center gap-3">
-                      <TxIcon kind={tx.kind} />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm leading-tight font-medium">
-                          {txLabel(tx.kind)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {formatLocaleDate(
-                            new Date(tx.timestamp),
-                            "PP",
-                            locale
-                          )}
-                        </p>
-                      </div>
-                      <DurationDisplay
-                        minutes={tx.minutes}
-                        className={cn(
-                          "text-sm font-semibold tabular-nums",
-                          tx.minutes >= 0
-                            ? "text-emerald-600 dark:text-emerald-400"
-                            : "text-destructive"
-                        )}
-                      />
-                      {tx.kind === "imported" && tx.entryId !== undefined && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label={t("bank.deleteImport")}
-                          className="size-8 shrink-0 text-muted-foreground/60 hover:text-destructive"
-                          onPointerDown={hapticTap}
-                          onClick={() => setPendingDeleteId(tx.entryId!)}
-                        >
-                          <Trash2 className="size-3.5" />
-                        </Button>
+            <div
+              ref={transactionScrollRef}
+              className="h-full overflow-y-auto pr-2"
+            >
+              <div
+                className="relative w-full"
+                style={{ height: transactionVirtualizer.getTotalSize() }}
+              >
+                {transactionVirtualizer.getVirtualItems().map((virtualRow) => {
+                  const tx = transactions[virtualRow.index]
+                  return (
+                    <div
+                      key={virtualRow.key}
+                      data-index={virtualRow.index}
+                      ref={transactionVirtualizer.measureElement}
+                      className={cn(
+                        "absolute top-0 left-0 w-full py-2.5",
+                        virtualRow.index < transactions.length - 1 &&
+                          "border-b border-border/40"
                       )}
+                      style={{ transform: `translateY(${virtualRow.start}px)` }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <TxIcon kind={tx.kind} />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm leading-tight font-medium">
+                            {txLabel(tx.kind)}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatLocaleDate(
+                              new Date(tx.timestamp),
+                              "PP",
+                              locale
+                            )}
+                          </p>
+                        </div>
+                        <DurationDisplay
+                          minutes={tx.minutes}
+                          className={cn(
+                            "text-sm font-semibold tabular-nums",
+                            tx.minutes >= 0
+                              ? "text-emerald-600 dark:text-emerald-400"
+                              : "text-destructive"
+                          )}
+                        />
+                        {tx.kind === "imported" && tx.entryId !== undefined && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("bank.deleteImport")}
+                            className="size-8 shrink-0 text-muted-foreground/60 hover:text-destructive"
+                            onPointerDown={hapticTap}
+                            onClick={() => setPendingDeleteId(tx.entryId!)}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
-            </ScrollArea>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -351,15 +392,10 @@ export function BankView() {
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>{t("bank.deleteImportTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("bank.deleteImportBody")}
-            </DialogDescription>
+            <DialogDescription>{t("bank.deleteImportBody")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="ghost"
-              onClick={() => setPendingDeleteId(null)}
-            >
+            <Button variant="ghost" onClick={() => setPendingDeleteId(null)}>
               {t("calendar.cancel")}
             </Button>
             <Button

@@ -19,8 +19,9 @@ import {
 } from "@/db/hooks"
 import {
   calculateFlexBeforeDate,
+  getDailyFlexUsed,
   getDailyWorkedMinutes,
-  getEffectiveDailyTarget,
+  getRemainingDayMinutes,
 } from "@/lib/flex"
 import {
   dateTimeToIso,
@@ -59,15 +60,12 @@ export function DayEntrySheet({ date, onClose }: DayEntrySheetProps) {
         : "",
     [date, locale]
   )
-  const dailyTarget = getEffectiveDailyTarget(settings)
   const worked = getDailyWorkedMinutes(entries)
   const workedNonFlex = getDailyWorkedMinutes(
     entries.filter((e) => e.type !== "flex")
   )
-  const workedFlex = getDailyWorkedMinutes(
-    entries.filter((e) => e.type === "flex")
-  )
-  const remaining = Math.max(dailyTarget - worked, 0)
+  const workedFlex = getDailyFlexUsed(entries, settings)
+  const remaining = getRemainingDayMinutes(entries, settings)
   const importedThisDay = entries
     .filter((e) => e.type === "import")
     .reduce((sum, e) => sum + e.duration, 0)

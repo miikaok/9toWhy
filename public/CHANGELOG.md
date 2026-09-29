@@ -1,3 +1,10 @@
+# 1.5.2
+
+- Full days off now cost the configured workday minus one lunch break; an 8-hour day with a 30-minute break costs 7h 30m of flex
+- Full-day flex entries, including previously saved and split entries, now use the same day-off cost in the bank, calendar, reports, and Excel export
+- Fixed timer auto-fill counting flex already used that day and imported flex appearing as work in the monthly chart
+- Flex Bank now renders only visible transaction rows, keeping long histories responsive
+
 # 1.5.1
 
 - Timer screen now has a one-tap button to complete today with your configured workday, filling only the remaining target instead of forcing you to use the timer

@@ -1,0 +1,63 @@
+# Wisecom Trace: AI review for every pull request, posted as the Wisecom Trace
+# GitHub App bot. Copy to .github/workflows/ in the reviewed repository.
+#
+# The App (owned by wisecom-oy) must be installed on the reviewed repository
+# and on wisecom-oy/trace. Repository settings (Settings -> Secrets and
+# variables -> Actions):
+#   vars.TRACE_GITHUB_APP_ID      GitHub App id
+#   secrets.TRACE_GITHUB_APP_KEY  GitHub App private key (PEM)
+#   secrets.OPENROUTER_API_KEY    OpenRouter key
+name: Wisecom Trace review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# A new push supersedes the review of the previous head.
+concurrency:
+  group: trace-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+# The workflow token only reads; comments are posted with the App's own token.
+permissions:
+  contents: read
+
+jobs:
+  review:
+    # Fork PRs get no secrets, and drafts are not ready for review.
+    if: github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # Read-only token for the private Trace source, minted from the App.
+      - id: source
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.TRACE_GITHUB_APP_ID }}
+          private-key: ${{ secrets.TRACE_GITHUB_APP_KEY }}
+          owner: wisecom-oy
+          repositories: trace
+          permission-contents: read
+      - uses: actions/checkout@v7
+        with:
+          repository: wisecom-oy/trace
+          token: ${{ steps.source.outputs.token }}
+          path: trace
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: trace/go.mod
+          cache-dependency-path: trace/go.sum
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: ./build.sh
+        working-directory: trace
+      - name: Review and publish
+        run: trace/bin/trace pr --target "github:${GITHUB_REPOSITORY}#${PR_NUMBER}"
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          TRACE_MODEL: z-ai/glm-5.3-flash
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TRACE_GITHUB_APP_ID: ${{ vars.TRACE_GITHUB_APP_ID }}
+          TRACE_GITHUB_APP_KEY: ${{ secrets.TRACE_GITHUB_APP_KEY }}

@@ -12,10 +12,17 @@ name: Wisecom Trace review
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  # Review an existing PR on demand: Actions -> Wisecom Trace review -> Run workflow.
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Pull request number
+        type: number
+        required: true
 
 # A new push supersedes the review of the previous head.
 concurrency:
-  group: trace-review-${{ github.event.pull_request.number }}
+  group: trace-review-${{ github.event.pull_request.number || inputs.pr }}
   cancel-in-progress: true
 
 # The workflow token only reads; comments are posted with the App's own token.
@@ -24,8 +31,9 @@ permissions:
 
 jobs:
   review:
-    # Fork PRs get no secrets, and drafts are not ready for review.
-    if: github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft
+    # Fork PRs get no secrets, and drafts are not ready for review. Manual runs
+    # are started by someone with write access, so they are always allowed.
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -54,9 +62,9 @@ jobs:
       - run: ./build.sh
         working-directory: trace
       - name: Review and publish
-        run: trace/bin/trace pr --target "github:${GITHUB_REPOSITORY}#${PR_NUMBER}"
+        run: trace/bin/trace pr --verbose --target "github:${GITHUB_REPOSITORY}#${PR_NUMBER}"
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
           TRACE_MODEL: z-ai/glm-5.3-flash
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           TRACE_GITHUB_APP_ID: ${{ vars.TRACE_GITHUB_APP_ID }}

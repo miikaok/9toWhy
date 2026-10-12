@@ -24,11 +24,6 @@ on:
   issue_comment:
     types: [created]
 
-# A new push supersedes the review of the previous head.
-concurrency:
-  group: trace-review-${{ github.event.pull_request.number || github.event.issue.number || inputs.pr }}
-  cancel-in-progress: true
-
 # The workflow token only reads; comments are posted with the App's own token.
 permissions:
   contents: read
@@ -45,6 +40,12 @@ jobs:
         contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # A new review request supersedes the one in progress. Job-level, so only
+    # runs that pass the `if:` join the group: any other PR comment (including
+    # the bot's own summary) starts a skipped run that must not cancel a review.
+    concurrency:
+      group: trace-review-${{ github.event.pull_request.number || github.event.issue.number || inputs.pr }}
+      cancel-in-progress: true
     steps:
       # Read-only token for the private Trace source, minted from the App.
       - id: source
